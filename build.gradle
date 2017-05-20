@@ -1,14 +1,11 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     repositories {
         jcenter()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
@@ -16,8 +13,56 @@ allprojects {
     repositories {
         jcenter()
     }
+
+    ext {
+        androidApplicationId = "com.mylb.mylogbook.presentation"
+        androidVersionCode = 1
+        androidVersionName = "1.0"
+        androidBuildToolsVersion = "25.0.3"
+        androidMinSdkVersion = 21
+        androidTargetSdkVersion = 25
+        androidCompileSdkVersion = 25
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = "com.mylb.mylogbook.presentation.test"
+
+        libraries = [
+            dagger:                     "com.google.dagger:dagger:2.11-rc2",
+            daggerCompiler:             "com.google.dagger:dagger-compiler:2.11-rc2",
+            butterKnife:                "com.jakewharton:butterknife:8.6.0",
+            butterKnifeCompiler:        "com.jakewharton:butterknife-compiler:8.6.0",
+            rxJava:                     "io.reactivex.rxjava2:rxjava:2.1.0",
+            rxAndroid:                  "io.reactivex.rxjava2:rxandroid:2.0.1",
+            gson:                       "com.google.code.gson:gson:2.8.0",
+            okHttp:                     "com.squareup.okhttp3:okhttp:3.8.0",
+            retrofit:                   "com.squareup.retrofit2:retrofit:2.3.0",
+            leakCanary:                 "com.squareup.leakcanary:leakcanary-android:1.5.1",
+
+            junit:                      "junit:junit:4.12",
+            assertj:                    "org.assertj:assertj-core:3.7.0",
+            mockito:                    "org.mockito:mockito-core:2.8.9",
+            espresso:                   "com.android.support.test.espresso:espresso-core:2.2.2",
+            roboelectric:               "org.robolectric:robolectric:3.3.2",
+
+            androidRecyclerView:        "com.android.support:recyclerview-v7:25.3.1",
+            androidTestRunner:          "com.android.support.test:runner:0.5",
+            androidAnnotations:         "com.android.support:support-annotations:25.3.1",
+            androidConstraintLayout:    "com.android.support.constraint:constraint-layout:1.0.2"
+        ]
+    }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+task runDomainUnitTests(dependsOn: [':domain:test']) {
+    description 'Run unit tests for the domain layer.'
+}
+
+task runDataUnitTests(dependsOn: [':data:cleanTestDebugUnitTest', ':data:testDebugUnitTest']) {
+    description 'Run unit tests for the data layer.'
+}
+
+task runUnitTests(dependsOn: ['runDomainUnitTests', 'runDataUnitTests']) {
+    description 'Run unit tests for both domain and data layers.'
+}
+
+task runAcceptanceTests(dependsOn: [':presentation:connectedAndroidTest']) {
+    description 'Run application acceptance tests.'
 }

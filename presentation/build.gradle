@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+android {
+    def config = rootProject.ext
+
+    compileSdkVersion config.androidCompileSdkVersion
+    buildToolsVersion config.androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion config.androidMinSdkVersion
+        targetSdkVersion config.androidTargetSdkVersion
+
+        applicationId config.androidApplicationId
+        versionCode config.androidVersionCode
+        versionName config.androidVersionName
+        testInstrumentationRunner config.testInstrumentationRunner
+        testApplicationId config.testApplicationId
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def libraries = rootProject.ext.libraries
+
+    compile project(':domain')
+    compile project(':data')
+
+    compile libraries.dagger
+    compile libraries.butterKnife
+    compile libraries.rxJava
+    compile libraries.rxAndroid
+    compile libraries.leakCanary
+    compile libraries.androidRecyclerView
+    compile libraries.androidConstraintLayout
+
+    annotationProcessor libraries.daggerCompiler
+    annotationProcessor libraries.butterKnifeCompiler
+
+    androidTestCompile libraries.mockito
+    androidTestCompile libraries.espresso
+    androidTestCompile libraries.androidTestRunner
+    androidTestCompile libraries.androidAnnotations
+}
