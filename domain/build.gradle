@@ -1,4 +1,4 @@
-apply plugin: 'java'
+apply plugin: 'kotlin'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -16,9 +16,20 @@ sourceSets {
 dependencies {
     def libraries = rootProject.ext.libraries
 
+    provided libraries.javaxAnnotation
+
+    // Java
+    compile libraries.javaxInject
+
+    // General
     compile libraries.rxJava
 
+    // Kotlin
+    compile libraries.kotlin
+    compile libraries.rxKotlin
+
+    // Testing
     testCompile libraries.junit
     testCompile libraries.mockito
-    testCompile libraries.assertj
+    testCompile libraries.kluent
 }

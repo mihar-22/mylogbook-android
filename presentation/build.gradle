@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     def config = rootProject.ext
@@ -23,11 +26,44 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            buildConfigField "String", "API_URL", "\"http://10.0.2.2:8000/api/v1/\""
+        }
+
         release {
             minifyEnabled false
+            buildConfigField "String", "API_URL", "\"https://mylb.com.au/api/v1/\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events              "passed", "skipped", "failed", "standardOut"
+            showExceptions      true
+            exceptionFormat     "full"
+            showCauses          true
+            showStackTraces     true
+
+            afterSuite { desc, result ->
+                if (!desc.parent) {
+                    def tests = "[${result.resultType}]: (${result.testCount} tests"
+                    def passes = "${result.successfulTestCount} successes"
+                    def fails = "${result.failedTestCount} failures"
+                    def skips = "${result.skippedTestCount} skipped)"
+                    def output = "${tests}, ${passes}, ${fails}, ${skips}"
+                    def length = output.length()
+
+                    println('\n' + ('-' * length) + '\n' + output + '\n' + ('-' * length))
+                }
+            }
+        }
+    }
+}
+
+kapt {
+    generateStubs = true
 }
 
 dependencies {
@@ -36,19 +72,41 @@ dependencies {
     compile project(':domain')
     compile project(':data')
 
+    provided libraries.javaxAnnotation
+
+    // General
     compile libraries.dagger
-    compile libraries.butterKnife
     compile libraries.rxJava
-    compile libraries.rxAndroid
     compile libraries.leakCanary
+
+    // Android
+    compile libraries.rxAndroid
+    compile libraries.androidAppCompat
+    compile libraries.androidAnnotations
     compile libraries.androidRecyclerView
     compile libraries.androidConstraintLayout
+    compile libraries.androidDesign
 
-    annotationProcessor libraries.daggerCompiler
-    annotationProcessor libraries.butterKnifeCompiler
+    // Kotlin
+    compile libraries.kotlin
+    compile libraries.rxKotlin
+    compile libraries.rxBinding
+    compile libraries.rxAppCompat
+    compile libraries.rxDesign
 
+    kapt libraries.daggerCompiler
+
+    // Testing
+    testCompile libraries.junit
+    testCompile libraries.mockito
+    testCompile libraries.kluent
+
+    // Android Testing
     androidTestCompile libraries.mockito
-    androidTestCompile libraries.espresso
     androidTestCompile libraries.androidTestRunner
+    androidTestCompile libraries.androidTestRules
+    androidTestCompile libraries.androidEspresso
+    androidTestCompile libraries.androidEspressoIntents
+    androidTestCompile libraries.androidUiAutomator
     androidTestCompile libraries.androidAnnotations
 }

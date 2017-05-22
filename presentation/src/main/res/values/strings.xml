@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Mylogbook</string>
+
+    <string name="sign_up">Sign Up</string>
+    <string name="create_account">Create Account</string>
+    <string name="log_in">Log In</string>
+
+    <string name="user_name">Name</string>
+    <string name="user_email">Email</string>
+    <string name="user_password">Password</string>
+    <string name="user_birthdate">Birthdate</string>
+
+    <string name="open_mail">Open Mail</string>
+    <string name="sign_up_success_title">One more step</string>
+    <string name="sign_up_success_message">
+        An email has been sent to you. Please go to your inbox and click on the link. This will
+        help us verify your account and keep your details safe!
+    </string>
+
+    <string name="error_connection_timeout">Connection timed out.</string>
+    <string name="error_email_taken">This email is already taken</string>
 </resources>

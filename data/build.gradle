@@ -1,28 +1,23 @@
 apply plugin: 'com.android.library'
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-}
+apply plugin: 'kotlin-android'
 
 android {
     defaultPublishConfig "debug"
 
     def config = rootProject.ext
 
-    compileSdkVersion config.androidCompileSdkVersion
-    buildToolsVersion config.androidBuildToolsVersion
+    compileSdkVersion           config.androidCompileSdkVersion
+    buildToolsVersion           config.androidBuildToolsVersion
 
     defaultConfig {
-        minSdkVersion config.androidMinSdkVersion
-        targetSdkVersion config.androidTargetSdkVersion
-        versionCode config.androidVersionCode
+        minSdkVersion           config.androidMinSdkVersion
+        targetSdkVersion        config.androidTargetSdkVersion
+        versionCode             config.androidVersionCode
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility     JavaVersion.VERSION_1_7
+        targetCompatibility     JavaVersion.VERSION_1_7
     }
 }
 
@@ -31,14 +26,29 @@ dependencies {
 
     compile project(':domain')
 
+    provided libraries.javaxAnnotation
+
+    // Java
+    compile libraries.javaxInject
+
+    // General
     compile libraries.okHttp
     compile libraries.gson
     compile libraries.rxJava
-    compile libraries.rxAndroid
     compile libraries.retrofit
+    compile libraries.retrofitRxAdapter
+    compile libraries.retrofitGsonConverter
+
+    // Android
+    compile libraries.rxAndroid
     compile libraries.androidAnnotations
 
+    // Kotlin
+    compile libraries.kotlin
+    compile libraries.rxKotlin
+
+    // Testing
     testCompile libraries.junit
-    testCompile libraries.assertj
     testCompile libraries.mockito
+    testCompile libraries.kluent
 }
