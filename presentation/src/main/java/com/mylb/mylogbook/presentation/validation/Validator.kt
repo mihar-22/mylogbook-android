@@ -89,6 +89,7 @@ sealed class Validator {
             enumValues<T>().forEach { field ->
                 val fieldValidationChanges = view.textChanges(field)
                         .skip(1)
+                        .map { it.trim() }
                         .map { value -> Validator.validate(value, rules(field)) }
                         .doOnNext { errors -> view.showError(field, errors.firstOrNull()) }
                         .map { it.isEmpty() }

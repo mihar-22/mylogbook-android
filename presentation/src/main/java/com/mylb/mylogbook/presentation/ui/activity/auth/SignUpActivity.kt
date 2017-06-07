@@ -93,10 +93,10 @@ class SignUpActivity : BaseActivity(), SignUpView {
 
     override fun text(field: SignUpView.Field): CharSequence {
         when (field) {
-            SignUpView.Field.NAME -> { return nameEditText.text }
-            SignUpView.Field.EMAIL -> { return emailEditText.text }
-            SignUpView.Field.PASSWORD -> { return passwordEditText.text }
-            SignUpView.Field.BIRTHDATE -> { return birthdateEditText.text }
+            SignUpView.Field.NAME -> { return nameEditText.text.trim() }
+            SignUpView.Field.EMAIL -> { return emailEditText.text.trim() }
+            SignUpView.Field.PASSWORD -> { return passwordEditText.text.trim() }
+            SignUpView.Field.BIRTHDATE -> { return birthdateEditText.text.trim() }
         }
     }
 
