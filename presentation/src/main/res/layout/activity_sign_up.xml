@@ -90,7 +90,7 @@
             android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/create_account"
+            android:text="@string/auth_create_account"
             android:enabled="false"
             style="@style/Widget.AppCompat.Button.Colored"/>
 

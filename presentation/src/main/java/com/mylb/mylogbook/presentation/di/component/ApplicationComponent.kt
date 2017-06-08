@@ -1,10 +1,8 @@
 package com.mylb.mylogbook.presentation.di.component
 
-import android.content.Context
-import com.google.gson.Gson
+import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.domain.executor.PostExecutionThread
 import com.mylb.mylogbook.domain.executor.ThreadExecutor
-import com.mylb.mylogbook.presentation.Navigator
 import com.mylb.mylogbook.presentation.di.module.ApplicationModule
 import com.mylb.mylogbook.presentation.di.module.HttpModule
 import com.mylb.mylogbook.presentation.ui.activity.BaseActivity
@@ -18,9 +16,9 @@ interface ApplicationComponent {
     fun inject(activity: BaseActivity)
 
     // Application Module
-    fun navigator(): Navigator
     fun threadExecutor(): ThreadExecutor
     fun postExecutionThread(): PostExecutionThread
+    fun userCache(): UserCache
 
     // Http Module
     fun retrofit(): Retrofit

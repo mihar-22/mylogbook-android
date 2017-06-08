@@ -9,10 +9,7 @@ interface AuthRepository {
     ): Observable<Response<Unit>>
 
     fun login(email: String, password: String): Observable<Response<Map<String, String>>>
-
     fun logout(): Observable<Response<Unit>>
-
     fun check(): Observable<Response<Unit>>
-
     fun forgot(email: String): Observable<Response<Unit>>
 }

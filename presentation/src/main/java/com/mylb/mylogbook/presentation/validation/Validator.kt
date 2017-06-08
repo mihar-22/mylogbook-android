@@ -9,9 +9,7 @@ sealed class Validator {
     class Required : Validator(), ValidationRule {
         override val errorMessage = "This field is required"
 
-        override fun validate(value: CharSequence): Boolean {
-            return value.isNotEmpty()
-        }
+        override fun validate(value: CharSequence) = value.isNotEmpty()
     }
 
     class Min(val min: Int = 0) : Validator(), ValidationRule {
@@ -37,17 +35,13 @@ sealed class Validator {
     class MinLength(val min: Int = 0) : Validator(), ValidationRule {
         override val errorMessage = "Must be at least $min characters"
 
-        override fun validate(value: CharSequence): Boolean {
-            return value.length >= min
-        }
+        override fun validate(value: CharSequence) = (value.length >= min)
     }
 
     class MaxLength(val max: Int = 0) : Validator(), ValidationRule {
         override val errorMessage = "Must no greater than $max characters"
 
-        override fun validate(value: CharSequence): Boolean {
-            return value.length <= max
-        }
+        override fun validate(value: CharSequence) = (value.length <= max)
     }
 
     class Email : Validator(), ValidationRule {
@@ -63,9 +57,7 @@ sealed class Validator {
     class Regex(val pattern: CharSequence, error: CharSequence) : Validator(), ValidationRule {
         override val errorMessage = error
 
-        override fun validate(value: CharSequence): Boolean {
-            return kotlin.text.Regex(pattern.toString()).matches(value)
-        }
+        override fun validate(value: CharSequence) = kotlin.text.Regex(pattern.toString()).matches(value)
     }
 
     class Date() : Validator(), ValidationRule {
@@ -81,7 +73,8 @@ sealed class Validator {
     companion object {
         inline fun <reified T : Enum<T>> validationChanges(
                 view: ValidatingView<T>,
-                crossinline rules: (T) -> ArrayList<ValidationRule>
+                crossinline rules: (T) -> ArrayList<ValidationRule>,
+                crossinline onValidationResult: (T, Boolean) -> Unit
         ): Observable<Boolean> {
 
             val validations = ArrayList<Observable<Boolean>>()
@@ -92,6 +85,7 @@ sealed class Validator {
                         .map { it.trim() }
                         .map { value -> Validator.validate(value, rules(field)) }
                         .doOnNext { errors -> view.showError(field, errors.firstOrNull()) }
+                        .doOnNext { onValidationResult(field, it.isEmpty()) }
                         .map { it.isEmpty() }
 
                 validations.add(fieldValidationChanges)
@@ -106,9 +100,7 @@ sealed class Validator {
         ): ArrayList<CharSequence> {
 
             val errors = ArrayList<CharSequence>()
-
             rules.forEach { rule -> if (!rule.validate(value)) errors.add(rule.errorMessage) }
-
             return errors
         }
     }

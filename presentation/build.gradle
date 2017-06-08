@@ -28,11 +28,13 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
+            buildConfigField "String", "MYLB_HOST", "\"10.0.2.2\""
             buildConfigField "String", "API_URL", "\"http://10.0.2.2:8000/api/v1/\""
         }
 
         release {
             minifyEnabled false
+            buildConfigField "String", "MYLB_HOST", "\"mylb.com.au\""
             buildConfigField "String", "API_URL", "\"https://mylb.com.au/api/v1/\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -77,10 +79,14 @@ dependencies {
     // General
     compile libraries.dagger
     compile libraries.rxJava
+
+    // Debug
     compile libraries.leakCanary
+    compile libraries.timber
 
     // Android
     compile libraries.rxAndroid
+    compile libraries.extrasDelegates
     compile libraries.androidAppCompat
     compile libraries.androidAnnotations
     compile libraries.androidRecyclerView

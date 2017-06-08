@@ -1,22 +1,45 @@
 <resources>
     <string name="app_name">Mylogbook</string>
 
-    <string name="sign_up">Sign Up</string>
-    <string name="create_account">Create Account</string>
-    <string name="log_in">Log In</string>
+    // Authentication
+    <string name="auth_sign_up">Sign Up</string>
+    <string name="auth_add_account">Add Account</string>
+    <string name="auth_create_account">Create Account</string>
+    <string name="auth_log_in">Log In</string>
+    <string name="auth_forgot_password">Forgot Password?</string>
 
+    // User
     <string name="user_name">Name</string>
     <string name="user_email">Email</string>
     <string name="user_password">Password</string>
     <string name="user_birthdate">Birthdate</string>
 
-    <string name="open_mail">Open Mail</string>
+    // System
+    <string name="system_open_mail">Open Mail</string>
+
+    // Sign Up
     <string name="sign_up_success_title">One more step</string>
     <string name="sign_up_success_message">
-        An email has been sent to you. Please go to your inbox and click on the link. This will
+        An email has been sent to you, go to it and click on the link provided. This step will
         help us verify your account and keep your details safe!
     </string>
 
+    // Password Reset
+    <string name="password_reset_sent_title">Reset Link Sent</string>
+    <string name="password_reset_sent_message">
+        An email has been sent to you, go to it and click on the link provided. You will be taken
+        to a form where you can reset your password.
+    </string>
+
+    // Dashboard
+    <string name="dashboard">Dashboard</string>
+
+    // Error
     <string name="error_connection_timeout">Connection timed out.</string>
     <string name="error_email_taken">This email is already taken</string>
+    <string name="error_invalid_credentials">
+        Bad email and password combination or unverified email
+    </string>
+    <string name="error_one_account_only">Only one Mylogbook account is allowed</string>
+    <string name="error_no_account">No account exists with this email</string>
 </resources>

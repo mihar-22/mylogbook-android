@@ -1,6 +1,5 @@
 package com.mylb.mylogbook.presentation.ui.view.auth
 
-import android.app.AlertDialog
 import com.mylb.mylogbook.presentation.ui.view.LoadingView
 import com.mylb.mylogbook.presentation.validation.ValidatingView
 import io.reactivex.Observable
@@ -12,7 +11,7 @@ interface SignUpView : LoadingView, ValidatingView<SignUpView.Field> {
     fun enableSubmitButton(isEnabled: Boolean)
     fun showEmailTakenToast()
     fun showConnectionTimeoutToast()
-    fun showSignUpSuccessAlert()
+    fun navigateToLogIn()
 
     enum class Field { NAME, EMAIL, PASSWORD, BIRTHDATE }
 }

@@ -1,8 +1,5 @@
 package com.mylb.mylogbook.presentation.ui.activity.auth
 
-import android.app.AlertDialog
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -15,17 +12,20 @@ import com.mylb.mylogbook.presentation.di.scope.PerActivity
 import com.mylb.mylogbook.presentation.presenter.auth.SignUpPresenter
 import com.mylb.mylogbook.presentation.ui.activity.BaseActivity
 import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView
+import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.*
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.view_progress_bar.*
+import me.eugeniomarletti.extras.SimpleActivityCompanion
+import timber.log.Timber
 import javax.inject.Inject
 
 @PerActivity
 class SignUpActivity : BaseActivity(), SignUpView {
 
-    @Inject lateinit var presenter: SignUpPresenter
+    @Inject override lateinit var presenter: SignUpPresenter
 
-    val component: AuthComponent
+    private val component: AuthComponent
         get() = DaggerAuthComponent.builder()
                 .applicationComponent(applicationComponent)
                 .activityModule(activityModule)
@@ -39,109 +39,74 @@ class SignUpActivity : BaseActivity(), SignUpView {
         setContentView(R.layout.activity_sign_up)
 
         component.inject(this)
-
         presenter.view = this
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.resume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        presenter.pause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.destroy()
     }
 
     override fun showLoading() {
         progressBar.visibility = View.VISIBLE
-
         enableSubmitButton(false)
     }
 
     override fun hideLoading() {
         progressBar.visibility = View.GONE
-
         enableSubmitButton(true)
+    }
+
+    override fun navigateToLogIn() {
+        Timber.d("Navigating to log in")
+
+        LogInActivity.start(this) { intent ->
+            intent.email = text(EMAIL).toString()
+            intent.password = text(PASSWORD).toString()
+            intent.justSignedUp = true
+        }
+
+        finish()
     }
 
     override fun showEmailTakenToast() = showToast(getString(R.string.error_email_taken))
 
     override fun showConnectionTimeoutToast() = showToast(getString(R.string.error_connection_timeout))
 
-    fun showToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    private fun showToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
-    override fun showSignUpSuccessAlert() {
-        AlertDialog.Builder(this)
-                .setTitle(getString(R.string.sign_up_success_title))
-                .setMessage(getString(R.string.sign_up_success_message))
-                .setPositiveButton(
-                        getString(R.string.open_mail),
-                        { _, _ -> navigator.navigateToDefaultMail(this) }
-                )
-                .setNegativeButton(
-                        getString(R.string.log_in),
-                        { _, _ -> navigator.navigateToLogIn(this) }
-                )
-                .show()
+    override fun text(field: SignUpView.Field) = when (field) {
+        NAME -> nameEditText.text.trim()
+        EMAIL -> emailEditText.text.trim()
+        PASSWORD -> passwordEditText.text.trim()
+        BIRTHDATE -> birthdateEditText.text.trim()
     }
 
-    override fun text(field: SignUpView.Field): CharSequence {
-        when (field) {
-            SignUpView.Field.NAME -> { return nameEditText.text.trim() }
-            SignUpView.Field.EMAIL -> { return emailEditText.text.trim() }
-            SignUpView.Field.PASSWORD -> { return passwordEditText.text.trim() }
-            SignUpView.Field.BIRTHDATE -> { return birthdateEditText.text.trim() }
+    override fun textChanges(field: SignUpView.Field) = when (field) {
+        NAME -> nameEditText.textChanges()
+        EMAIL -> emailEditText.textChanges()
+        PASSWORD -> passwordEditText.textChanges()
+        BIRTHDATE -> birthdateEditText.textChanges()
+    }
+
+    override fun showError(field: SignUpView.Field, error: CharSequence?) = when (field) {
+        NAME -> {
+            nameTextInputLayout.error = error
+            nameTextInputLayout.isErrorEnabled = (!error.isNullOrEmpty())
+        }
+
+        EMAIL -> {
+            emailTextInputLayout.error = error
+            emailTextInputLayout.isErrorEnabled = (!error.isNullOrEmpty())
+        }
+
+        PASSWORD -> {
+            passwordTextInputLayout.error = error
+            passwordTextInputLayout.isErrorEnabled = (!error.isNullOrEmpty())
+        }
+
+        BIRTHDATE -> {
+            birthdateTextInputLayout.error = error
+            birthdateTextInputLayout.isErrorEnabled = (!error.isNullOrEmpty())
         }
     }
 
-    override fun textChanges(field: SignUpView.Field): Observable<CharSequence> {
-        when (field) {
-            SignUpView.Field.NAME -> { return nameEditText.textChanges() }
-            SignUpView.Field.EMAIL -> { return emailEditText.textChanges() }
-            SignUpView.Field.PASSWORD -> { return passwordEditText.textChanges() }
-            SignUpView.Field.BIRTHDATE -> { return birthdateEditText.textChanges() }
-        }
-    }
+    override fun enableSubmitButton(isEnabled: Boolean) { submitButton.isEnabled = isEnabled }
 
-    override fun showError(field: SignUpView.Field, error: CharSequence?) {
-        val isErrorEnabled = (error != null)
-
-        when (field) {
-            SignUpView.Field.NAME -> {
-                nameTextInputLayout.error = error
-                nameTextInputLayout.isErrorEnabled = isErrorEnabled
-            }
-
-            SignUpView.Field.EMAIL -> {
-                emailTextInputLayout.error = error
-                emailTextInputLayout.isErrorEnabled = isErrorEnabled
-            }
-
-            SignUpView.Field.PASSWORD -> {
-                passwordTextInputLayout.error = error
-                passwordTextInputLayout.isErrorEnabled = isErrorEnabled
-            }
-
-            SignUpView.Field.BIRTHDATE -> {
-                birthdateTextInputLayout.error = error
-                birthdateTextInputLayout.isErrorEnabled = isErrorEnabled
-            }
-        }
-    }
-
-    override fun enableSubmitButton(isEnabled: Boolean) {
-        submitButton.isEnabled = isEnabled
-    }
-
-    companion object {
-        fun getCallingIntent(context: Context): Intent {
-            return Intent(context, SignUpActivity::class.java)
-        }
-    }
+    companion object : SimpleActivityCompanion(SignUpActivity::class)
 }

@@ -3,6 +3,10 @@
     package="com.mylb.mylogbook.presentation">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".AndroidApplication"
@@ -22,8 +26,8 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.auth.SignUpActivity"
-            android:label="@string/sign_up">
+            android:name=".ui.activity.auth.LogInActivity"
+            android:label="@string/auth_log_in">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.APP_EMAIL"/>
@@ -31,8 +35,29 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.auth.LogInActivity"
-            android:label="@string/log_in"/>
+            android:name=".ui.activity.auth.SignUpActivity"
+            android:label="@string/auth_sign_up">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.dashboard.DashboardActivity"
+            android:label="@string/dashboard">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.mylb.mylogbook.presentation.device.authenticator.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
     </application>
 
 </manifest>

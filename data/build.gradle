@@ -31,6 +31,9 @@ dependencies {
     // Java
     compile libraries.javaxInject
 
+    // Debug
+    compile libraries.timber
+
     // General
     compile libraries.okHttp
     compile libraries.gson
@@ -38,6 +41,7 @@ dependencies {
     compile libraries.retrofit
     compile libraries.retrofitRxAdapter
     compile libraries.retrofitGsonConverter
+    compile libraries.kotpref
 
     // Android
     compile libraries.rxAndroid

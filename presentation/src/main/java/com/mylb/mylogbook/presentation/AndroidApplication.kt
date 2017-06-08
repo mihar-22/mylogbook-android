@@ -1,13 +1,16 @@
 package com.mylb.mylogbook.presentation
 
 import android.app.Application
+import com.chibatching.kotpref.Kotpref
 import com.mylb.mylogbook.presentation.di.component.ApplicationComponent
 import com.mylb.mylogbook.presentation.di.component.DaggerApplicationComponent
 import com.mylb.mylogbook.presentation.di.module.ApplicationModule
 import com.mylb.mylogbook.presentation.di.module.HttpModule
 import com.squareup.leakcanary.LeakCanary
+import timber.log.Timber
 
 class AndroidApplication : Application() {
+
     val component: ApplicationComponent
         get() = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
@@ -16,8 +19,11 @@ class AndroidApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initLeakDetector()
-    }
 
-    private fun initLeakDetector() { if (BuildConfig.DEBUG) { LeakCanary.install(this) } }
+        if (BuildConfig.DEBUG) { LeakCanary.install(this) }
+        Kotpref.init(applicationContext)
+        Timber.plant(Timber.DebugTree())
+
+        Timber.d("Application ready")
+    }
 }

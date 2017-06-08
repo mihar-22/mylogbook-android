@@ -1,27 +1,35 @@
 package com.mylb.mylogbook.presentation.presenter.auth
 
-import android.util.Log
 import com.mylb.mylogbook.domain.delivery.web.Response
 import com.mylb.mylogbook.domain.interactor.auth.SignUpUser
+import com.mylb.mylogbook.domain.interactor.auth.SignUpUser.Params.NewUser
 import com.mylb.mylogbook.presentation.di.scope.PerActivity
 import com.mylb.mylogbook.presentation.presenter.Presenter
 import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView
+import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.NAME
+import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.EMAIL
+import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.PASSWORD
+import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.BIRTHDATE
+import com.mylb.mylogbook.presentation.validation.ValidatingView
 import com.mylb.mylogbook.presentation.validation.ValidationRule
 import com.mylb.mylogbook.presentation.validation.Validator
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
 @PerActivity
 class SignUpPresenter @Inject constructor(
-        private val useCase: SignUpUser,
+        private val signUpUser: SignUpUser,
         private val disposables: CompositeDisposable
-) : Presenter {
+) : Presenter, ValidatingView.Presenter<SignUpView.Field> {
 
     var view: SignUpView? = null
         set(view) {
+            Timber.d("Setting view")
+
             field = view
 
             attachView()
@@ -32,55 +40,61 @@ class SignUpPresenter @Inject constructor(
     override fun pause() {}
 
     override fun destroy() {
-        disposables.dispose()
+        Timber.d("Destroying")
 
+        disposables.dispose()
         view = null
     }
 
     fun attachView() {
         if (view == null) {
-            disposables.clear()
+            Timber.d("View is null")
 
+            disposables.clear()
             return
         }
 
-        observeFormChanges()
+        observeValidationChanges()
         observeSubmitButtonClicks()
     }
 
-    fun validationRules(field: SignUpView.Field): ArrayList<ValidationRule> {
+    override fun validationRules(field: SignUpView.Field): ArrayList<ValidationRule> {
         val rules = ArrayList<ValidationRule>()
 
         rules.add(Validator.Required())
 
         when (field) {
-            SignUpView.Field.NAME -> { rules.add(Validator.MaxLength(100)) }
-            SignUpView.Field.EMAIL -> { rules.add(Validator.Email()) }
-            SignUpView.Field.PASSWORD -> { rules.add(Validator.MinLength(6)) }
-            SignUpView.Field.BIRTHDATE -> { rules.add(Validator.Date()) }
+            NAME -> rules.add(Validator.MaxLength(100))
+            EMAIL -> rules.add(Validator.Email())
+            PASSWORD -> rules.add(Validator.MinLength(6))
+            BIRTHDATE -> rules.add(Validator.Date())
         }
 
         return rules
     }
 
-    fun observeFormChanges() {
-        val formChanges = Validator.validationChanges(view!!, this::validationRules)
+    override fun observeValidationChanges() {
+        Timber.d("Observing validation changes")
+
+        val validationChanges = Validator.validationChanges(view!!, this::validationRules, { _ , _ -> })
                 .subscribe { isFormValid -> view!!.enableSubmitButton(isFormValid) }
 
-        disposables.add(formChanges)
+        disposables.add(validationChanges)
     }
 
     fun observeSubmitButtonClicks() {
+        Timber.d("Observing submit button clicks")
+
         val submitButtonClicks = view!!.submitButtonClicks.subscribe {
             view!!.showLoading()
 
-            useCase.execute(
+            signUpUser.execute(
                     SignUpUserObserver(),
-                    SignUpUser.Companion.NewUser(
-                            view!!.text(SignUpView.Field.NAME).toString(),
-                            view!!.text(SignUpView.Field.EMAIL).toString(),
-                            view!!.text(SignUpView.Field.PASSWORD).toString(),
-                            view!!.text(SignUpView.Field.BIRTHDATE).toString()
+                    NewUser(
+                            view!!.text(NAME).toString(),
+                            view!!.text(EMAIL).toString(),
+                            view!!.text(PASSWORD).toString(),
+                            view!!.text(BIRTHDATE).toString()
                     )
             )
         }
@@ -89,20 +103,22 @@ class SignUpPresenter @Inject constructor(
     }
 
     private inner class SignUpUserObserver : DisposableObserver<Response<Unit>>() {
-        override fun onComplete() {}
+        override fun onNext(t: Response<Unit>) {
+            Timber.d("User signed up")
 
-        override fun onError(e: Throwable?) {
             view!!.hideLoading()
-
-            if (e is HttpException) { view!!.showEmailTakenToast() }
-
-            if (e is IOException) { view!!.showConnectionTimeoutToast() }
+            view!!.navigateToLogIn()
         }
 
-        override fun onNext(t: Response<Unit>?) {
+        override fun onComplete() = Unit
+
+        override fun onError(e: Throwable?) {
+            Timber.d("User sign up failed with: %s", e?.message)
+
             view!!.hideLoading()
 
-            view!!.showSignUpSuccessAlert()
+            if (e is HttpException && e.code() == 422) view!!.showEmailTakenToast()
+            if (e is IOException) view!!.showConnectionTimeoutToast()
         }
     }
 }

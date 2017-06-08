@@ -5,7 +5,6 @@ import com.mylb.mylogbook.domain.executor.PostExecutionThread
 import com.mylb.mylogbook.domain.executor.ThreadExecutor
 import com.mylb.mylogbook.domain.interactor.UseCase
 import com.mylb.mylogbook.domain.repository.AuthRepository
-import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -14,15 +13,15 @@ class SignUpUser @Inject constructor(
         postExecutionThread: PostExecutionThread,
         disposables: CompositeDisposable,
         private val repository: AuthRepository
-) : UseCase<Response<Unit>, SignUpUser.Companion.NewUser>(
+) : UseCase<Response<Unit>, SignUpUser.Params.NewUser>(
         threadExecutor, postExecutionThread, disposables
 ) {
 
-    override fun buildObservable(params: NewUser): Observable<Response<Unit>> {
-        return repository.register(params.name, params.email, params.password, params.birthdate)
-    }
+    override fun buildObservable(params: NewUser) =
+            repository.register(params.name, params.email, params.password, params.birthdate)
 
-    companion object {
+
+    companion object Params {
         class NewUser(
                 val name: String,
                 val email: String,

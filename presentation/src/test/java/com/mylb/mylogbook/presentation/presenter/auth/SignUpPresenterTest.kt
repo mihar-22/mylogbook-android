@@ -21,7 +21,6 @@ import org.mockito.junit.MockitoJUnitRunner
 class SignUpPresenterTest {
 
     lateinit private var presenter: SignUpPresenter
-
     lateinit private var testDisposables: CompositeDisposable
 
     @Mock lateinit private var mockUseCase: SignUpUser
@@ -62,7 +61,6 @@ class SignUpPresenterTest {
         verify(mockView).textChanges(SignUpView.Field.EMAIL)
         verify(mockView).textChanges(SignUpView.Field.PASSWORD)
         verify(mockView).textChanges(SignUpView.Field.BIRTHDATE)
-
         verify(mockView).submitButtonClicks
     }
 
