@@ -34,6 +34,12 @@
     // Dashboard
     <string name="dashboard">Dashboard</string>
 
+    // Bottom Nav
+    <string name="bottom_nav_dashboard">Dashboard</string>
+    <string name="bottom_nav_cars">Cars</string>
+    <string name="bottom_nav_supervisors">Supervisors</string>
+    <string name="bottom_nav_log">Log</string>
+
     // Error
     <string name="error_connection_timeout">Connection timed out.</string>
     <string name="error_email_taken">This email is already taken</string>

@@ -1,11 +1,11 @@
 package com.mylb.mylogbook.domain.interactor.auth
 
 import com.mylb.mylogbook.domain.auth.Auth
-import com.mylb.mylogbook.domain.delivery.web.Response
+import com.mylb.mylogbook.domain.delivery.remote.Response
+import com.mylb.mylogbook.domain.delivery.remote.repository.RemoteAuthRepository
 import com.mylb.mylogbook.domain.executor.PostExecutionThread
 import com.mylb.mylogbook.domain.executor.ThreadExecutor
-import com.mylb.mylogbook.domain.interactor.UseCase
-import com.mylb.mylogbook.domain.repository.AuthRepository
+import com.mylb.mylogbook.domain.interactor.BaseUseCase
 import io.reactivex.disposables.CompositeDisposable
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -15,8 +15,8 @@ class CheckAuthentication @Inject constructor(
         postExecutionThread: PostExecutionThread,
         disposables: CompositeDisposable,
         private val auth: Auth,
-        private val repository: AuthRepository
-) : UseCase<Response<Unit>, CheckAuthentication.Params.Credential>(
+        private val repository: RemoteAuthRepository
+) : BaseUseCase<Response<Unit>, CheckAuthentication.Params.Credential>(
         threadExecutor, postExecutionThread, disposables
 ) {
 
@@ -26,6 +26,9 @@ class CheckAuthentication @Inject constructor(
             }
 
     companion object Params {
+
         class Credential(val email: String)
+
     }
+
 }

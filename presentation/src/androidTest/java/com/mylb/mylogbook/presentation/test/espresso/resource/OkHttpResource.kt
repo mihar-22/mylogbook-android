@@ -19,4 +19,5 @@ class OkHttpResource constructor(client: OkHttpClient) : IdlingResource {
     override fun registerIdleTransitionCallback(callback: ResourceCallback) {
         this.callback = callback
     }
+
 }

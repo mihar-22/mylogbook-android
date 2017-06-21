@@ -1,13 +1,11 @@
 package com.mylb.mylogbook.data.network.endpoint
 
-import com.mylb.mylogbook.domain.delivery.web.Response
-import com.mylb.mylogbook.domain.repository.AuthRepository
+import com.mylb.mylogbook.domain.delivery.remote.Response
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
-import javax.inject.Inject
 
 interface AuthEndPoint {
 
@@ -38,4 +36,5 @@ interface AuthEndPoint {
     fun forgot(
             @Field("email") email: String
     ): Observable<Response<Unit>>
+
 }

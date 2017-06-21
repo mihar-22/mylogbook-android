@@ -8,7 +8,7 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.di.component.AuthComponent
 import com.mylb.mylogbook.presentation.di.component.DaggerAuthComponent
-import com.mylb.mylogbook.presentation.di.scope.PerActivity
+import com.mylb.mylogbook.presentation.di.scope.PerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.auth.SignUpPresenter
 import com.mylb.mylogbook.presentation.ui.activity.BaseActivity
 import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView
@@ -20,7 +20,7 @@ import me.eugeniomarletti.extras.SimpleActivityCompanion
 import timber.log.Timber
 import javax.inject.Inject
 
-@PerActivity
+@PerAndroidComponent
 class SignUpActivity : BaseActivity(), SignUpView {
 
     @Inject override lateinit var presenter: SignUpPresenter
@@ -28,7 +28,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
     private val component: AuthComponent
         get() = DaggerAuthComponent.builder()
                 .applicationComponent(applicationComponent)
-                .activityModule(activityModule)
+                .androidModule(activityModule)
                 .build()
 
     override val submitButtonClicks: Observable<Unit>
@@ -109,4 +109,5 @@ class SignUpActivity : BaseActivity(), SignUpView {
     override fun enableSubmitButton(isEnabled: Boolean) { submitButton.isEnabled = isEnabled }
 
     companion object : SimpleActivityCompanion(SignUpActivity::class)
+
 }

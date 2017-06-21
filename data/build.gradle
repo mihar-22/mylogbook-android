@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     defaultPublishConfig "debug"
@@ -21,38 +22,46 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     def libraries = rootProject.ext.libraries
 
-    compile project(':domain')
+    compile (project(':domain')) { exclude module: 'joda-time' }
 
     provided libraries.javaxAnnotation
 
-    // Java
-    compile libraries.javaxInject
+    // Annotation Processors
+    kapt libraries.androidRoomCompiler
 
     // Debug
     compile libraries.timber
 
     // General
+    compile libraries.javaxInject
     compile libraries.okHttp
     compile libraries.gson
     compile libraries.rxJava
     compile libraries.retrofit
     compile libraries.retrofitRxAdapter
     compile libraries.retrofitGsonConverter
-    compile libraries.kotpref
-
-    // Android
+    compile libraries.androidJoda
     compile libraries.rxAndroid
     compile libraries.androidAnnotations
+    compile libraries.androidRoom
+    compile libraries.androidRoomRx
 
     // Kotlin
     compile libraries.kotlin
     compile libraries.rxKotlin
+    compile libraries.kotpref
 
     // Testing
     testCompile libraries.junit
     testCompile libraries.mockito
     testCompile libraries.kluent
+    testCompile libraries.robolectric
+    testCompile libraries.jodaTime
 }

@@ -1,11 +1,11 @@
 package com.mylb.mylogbook.presentation.presenter.auth
 
-import com.mylb.mylogbook.domain.delivery.web.Response
+import com.mylb.mylogbook.domain.delivery.remote.Response
 import com.mylb.mylogbook.domain.interactor.auth.LogUserIn
 import com.mylb.mylogbook.domain.interactor.auth.LogUserIn.Params.Credentials
 import com.mylb.mylogbook.domain.interactor.auth.RequestNewPassword
 import com.mylb.mylogbook.domain.interactor.auth.RequestNewPassword.Params.Requester
-import com.mylb.mylogbook.presentation.di.scope.PerActivity
+import com.mylb.mylogbook.presentation.di.scope.PerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.Presenter
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.EMAIL
@@ -20,7 +20,7 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-@PerActivity
+@PerAndroidComponent
 class LogInPresenter @Inject constructor(
         private val logUserIn: LogUserIn,
         private val requestNewPassword: RequestNewPassword,
@@ -136,17 +136,19 @@ class LogInPresenter @Inject constructor(
 
         override fun onComplete() = Unit
 
-        override fun onError(e: Throwable?) {
-            Timber.d("Logging in failed with: %s", e?.message)
+        override fun onError(e: Throwable) {
+            Timber.d("Logging in failed with: %s", e.message)
 
             view!!.hideLoading()
 
             if (e is HttpException && e.code() == 400) view!!.showInvalidCredentialsToast()
             if (e is IOException) view!!.showConnectionTimeoutToast()
         }
+
     }
 
     private inner class RequestNewPasswordObserver : DisposableObserver<Response<Unit>>() {
+
         override fun onNext(t: Response<Unit>) {
             Timber.d("Forgot password mail sent")
 
@@ -156,13 +158,15 @@ class LogInPresenter @Inject constructor(
 
         override fun onComplete() = Unit
 
-        override fun onError(e: Throwable?) {
-            Timber.d("Password reset failed with: %s", e?.message)
+        override fun onError(e: Throwable) {
+            Timber.d("Password reset failed with: %s", e.message)
 
             view!!.hideLoading()
 
             if (e is HttpException && e.code() == 422) view!!.showNoAccountToast()
             if (e is IOException) view!!.showConnectionTimeoutToast()
         }
+
     }
+
 }

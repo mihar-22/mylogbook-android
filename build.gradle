@@ -1,6 +1,32 @@
 
 buildscript {
-    ext.kotlinVersion = '1.1.2-3'
+    ext.kotlinVersion = '1.1.3-2'
+    ext.daggerVersion = '2.11-rc2'
+    ext.retrofitVersion = '2.3.0'
+    ext.okHttpVersion = '3.8.0'
+    ext.rxJavaVersion = '2.1.0'
+    ext.rxKotlinVersion = '2.0.3'
+    ext.rxAndroidVersion = '2.0.1'
+    ext.rxBindingVersion = '2.0.0'
+    ext.gsonVersion = '2.8.0'
+    ext.kotPrefVersion = '2.1.1'
+    ext.javaxAnnotationVersion = '1.0'
+    ext.javaxInjectVersion = '1'
+    ext.jodaTimeVersion = '2.9.9'
+    ext.extrasDelegatesVersion = '1.0.5'
+    ext.androidSupportVersion = '25.3.1'
+    ext.androidConstraintLayoutVersion = '1.0.2'
+    ext.leakCanaryVersion = '1.5.1'
+    ext.timberVersion = '4.5.1'
+    ext.androidTestVersion = '0.5'
+    ext.espressoVersion = '2.2.2'
+    ext.junitVersion = '4.12'
+    ext.mockitoVersion = '2.8.9'
+    ext.kluentVersion = '1.21'
+    ext.robolectricVersion = '3.3.2'
+    ext.androidUiAutomatorVersion = '2.1.2'
+    ext.androidRoomVersion = '1.0.0-alpha3'
+    ext.stethoVersion = '1.5.0'
 
     repositories {
         jcenter()
@@ -15,6 +41,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
 
     ext {
@@ -30,51 +57,61 @@ allprojects {
 
         libraries = [
             // General
-            dagger:                     "com.google.dagger:dagger:2.11-rc2",
-            daggerCompiler:             "com.google.dagger:dagger-compiler:2.11-rc2",
-            rxJava:                     "io.reactivex.rxjava2:rxjava:2.1.0",
-            gson:                       "com.google.code.gson:gson:2.8.0",
-            okHttp:                     "com.squareup.okhttp3:okhttp:3.8.0",
-            retrofit:                   "com.squareup.retrofit2:retrofit:2.3.0",
-            retrofitRxAdapter:          "com.squareup.retrofit2:adapter-rxjava2:2.3.0",
-            retrofitGsonConverter:      "com.squareup.retrofit2:converter-gson:2.3.0",
-            kotpref:                    "com.chibatching.kotpref:kotpref:2.1.1",
-
-            // Debug
-            leakCanary:                 "com.squareup.leakcanary:leakcanary-android:1.5.1",
-            timber:                     "com.jakewharton.timber:timber:4.5.1",
-
-            // Testing
-            junit:                      "junit:junit:4.12",
-            mockito:                    "org.mockito:mockito-core:2.8.9",
-            kluent:                     "org.amshove.kluent:kluent:1.21",
-            androidTestRunner:          "com.android.support.test:runner:0.5",
-            androidTestRules:           "com.android.support.test:rules:0.5",
-            androidEspresso:            "com.android.support.test.espresso:espresso-core:2.2.2",
-            androidEspressoIntents:     "com.android.support.test.espresso:espresso-intents:2.2.2",
-            androidUiAutomator:         "com.android.support.test.uiautomator:uiautomator-v18:2.1.2",
-
-            // Java
-            javaxAnnotation:            "javax.annotation:jsr250-api:1.0",
-            javaxInject:                "javax.inject:javax.inject:1",
-
-            // Android
-            rxAndroid:                  "io.reactivex.rxjava2:rxandroid:2.0.1",
-            extrasDelegates:            "me.eugeniomarletti:android-extras-delegates:1.0.5",
-            androidAppCompat:           "com.android.support:appcompat-v7:25.3.1",
-            androidRecyclerView:        "com.android.support:recyclerview-v7:25.3.1",
-            androidAnnotations:         "com.android.support:support-annotations:25.3.1",
-            androidConstraintLayout:    "com.android.support.constraint:constraint-layout:1.0.2",
-            androidDesign:              "com.android.support:design:25.3.1",
+            dagger:                     "com.google.dagger:dagger:$daggerVersion",
+            daggerCompiler:             "com.google.dagger:dagger-compiler:$daggerVersion",
+            rxJava:                     "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            gson:                       "com.google.code.gson:gson:$gsonVersion",
+            okHttp:                     "com.squareup.okhttp3:okhttp:$okHttpVersion",
+            retrofit:                   "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitRxAdapter:          "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+            retrofitGsonConverter:      "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            jodaTime:                   "joda-time:joda-time:$jodaTimeVersion",
+            javaxAnnotation:            "javax.annotation:jsr250-api:$javaxAnnotationVersion",
+            javaxInject:                "javax.inject:javax.inject:$javaxInjectVersion",
+            rxAndroid:                  "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            stetho:                     "com.facebook.stetho:stetho:$stethoVersion",
+            stethoOkHttp:               "com.facebook.stetho:stetho-okhttp3:$stethoVersion",
+            androidJoda:                "net.danlew:android.joda:$jodaTimeVersion",
+            androidAppCompat:           "com.android.support:appcompat-v7:$androidSupportVersion",
+            androidRecyclerView:        "com.android.support:recyclerview-v7:$androidSupportVersion",
+            androidAnnotations:         "com.android.support:support-annotations:$androidSupportVersion",
+            androidConstraintLayout:    "com.android.support.constraint:constraint-layout:$androidConstraintLayoutVersion",
+            androidDesign:              "com.android.support:design:$androidSupportVersion",
+            androidRoom:                "android.arch.persistence.room:runtime:$androidRoomVersion",
+            androidRoomCompiler:        "android.arch.persistence.room:compiler:$androidRoomVersion",
+            androidRoomRx:              "android.arch.persistence.room:rxjava2:$androidRoomVersion",
 
             // Kotlin
             kotlin:                     "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",
-            rxKotlin:                   "io.reactivex.rxjava2:rxkotlin:2.0.3",
-            rxBinding:                  "com.jakewharton.rxbinding2:rxbinding-kotlin:2.0.0",
-            rxAppCompat:                "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:2.0.0",
-            rxDesign:                   "com.jakewharton.rxbinding2:rxbinding-design-kotlin:2.0.0",
-            rxRecyclerView:             "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:2.0.0"
+            rxKotlin:                   "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+            rxBinding:                  "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion",
+            rxAppCompat:                "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVersion",
+            rxDesign:                   "com.jakewharton.rxbinding2:rxbinding-design-kotlin:$rxBindingVersion",
+            rxRecyclerView:             "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:$rxBindingVersion",
+            kotpref:                    "com.chibatching.kotpref:kotpref:$kotPrefVersion",
+            extrasDelegates:            "me.eugeniomarletti:android-extras-delegates:$extrasDelegatesVersion",
+
+            // Debug
+            leakCanary:                 "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
+            timber:                     "com.jakewharton.timber:timber:$timberVersion",
+
+            // Testing
+            junit:                      "junit:junit:$junitVersion",
+            mockito:                    "org.mockito:mockito-core:$mockitoVersion",
+            kluent:                     "org.amshove.kluent:kluent:$kluentVersion",
+            robolectric:                "org.robolectric:robolectric:$robolectricVersion",
+            androidTestRunner:          "com.android.support.test:runner:$androidTestVersion",
+            androidTestRules:           "com.android.support.test:rules:$androidTestVersion",
+            androidEspresso:            "com.android.support.test.espresso:espresso-core:$espressoVersion",
+            androidEspressoIntents:     "com.android.support.test.espresso:espresso-intents:$espressoVersion",
+            androidUiAutomator:         "com.android.support.test.uiautomator:uiautomator-v18:$androidUiAutomatorVersion"
         ]
+    }
+
+    configurations.all {
+        resolutionStrategy {
+            force "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        }
     }
 }
 

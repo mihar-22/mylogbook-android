@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/dashboardMenuItem"
+        android:enabled="true"
+        android:title="@string/bottom_nav_dashboard" />
+
+    <item
+        android:id="@+id/carsMenuItem"
+        android:enabled="true"
+        android:title="@string/bottom_nav_cars" />
+
+    <item
+        android:id="@+id/supervisorsMenuItem"
+        android:enabled="true"
+        android:title="@string/bottom_nav_supervisors" />
+
+    <item
+        android:id="@+id/logMenuItem"
+        android:enabled="true"
+        android:title="@string/bottom_nav_log" />
+
+</menu>

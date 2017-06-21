@@ -1,16 +1,28 @@
 package com.mylb.mylogbook.presentation.device.authenticator
 
-import android.app.Service
-import android.content.Intent
 import android.os.IBinder
-import timber.log.Timber
+import com.mylb.mylogbook.presentation.device.BaseService
+import com.mylb.mylogbook.presentation.di.component.AuthComponent
+import com.mylb.mylogbook.presentation.di.component.DaggerAuthComponent
+import javax.inject.Inject
 
-class AuthenticatorService : Service() {
-    override fun onBind(intent: Intent?): IBinder {
-        Timber.d("Binding service")
+class AuthenticatorService : BaseService() {
 
-        val authenticator = Authenticator(this)
+    @Inject lateinit var authenticator: Authenticator
 
-        return authenticator.iBinder
+    override val binder: IBinder
+        get() = authenticator.iBinder
+
+    private val component: AuthComponent
+        get() = DaggerAuthComponent.builder()
+                .applicationComponent(applicationComponent)
+                .androidModule(serviceModule)
+                .build()
+
+    override fun onCreate() {
+        super.onCreate()
+
+        component.inject(this)
     }
+
 }

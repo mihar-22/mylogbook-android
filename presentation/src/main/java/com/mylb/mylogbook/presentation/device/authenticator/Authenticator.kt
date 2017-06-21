@@ -9,19 +9,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
+import com.mylb.mylogbook.domain.auth.Auth
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.device.authenticator.Auth.Companion.ERROR_CODE_ONLY_ONE_ACCOUNT
 import com.mylb.mylogbook.presentation.device.authenticator.Auth.Companion.TOKEN_TYPE_FULL_ACCESS_LABEL
+import com.mylb.mylogbook.presentation.di.qualifier.ForAndroidComponent
 import com.mylb.mylogbook.presentation.ui.activity.auth.LogInActivity
 import me.eugeniomarletti.extras.ActivityCompanion
 import me.eugeniomarletti.extras.intent.IntentExtra
 import me.eugeniomarletti.extras.intent.base.Parcelable
 import me.eugeniomarletti.extras.intent.base.String
 import timber.log.Timber
+import javax.inject.Inject
 
-class Authenticator constructor(val context: Context) : AbstractAccountAuthenticator(context) {
+class Authenticator @Inject constructor(
+        @ForAndroidComponent val context: Context,
+        private val auth: Auth
+) : AbstractAccountAuthenticator(context) {
 
-    private val auth = Auth(context)
     private val handler = Handler()
 
     override fun addAccount(
@@ -33,7 +38,7 @@ class Authenticator constructor(val context: Context) : AbstractAccountAuthentic
     ): Bundle? {
         Timber.d("Adding account")
 
-        if (auth.hasAccount()) {
+        if (auth.accountExists()) {
             showAccountExistsToast()
 
             return errorAccountExistsBundle()
@@ -134,6 +139,7 @@ class Authenticator constructor(val context: Context) : AbstractAccountAuthentic
     companion object : ActivityCompanion<IntentOptions>(IntentOptions, LogInActivity::class)
 
     object IntentOptions {
+
         var Intent.accountName by IntentExtra.String(name = AccountManager.KEY_ACCOUNT_NAME, customPrefix = "")
         var Intent.accountType by IntentExtra.String(name = AccountManager.KEY_ACCOUNT_TYPE, customPrefix = "")
         var Intent.authToken by IntentExtra.String(name = AccountManager.KEY_AUTHTOKEN, customPrefix = "")
@@ -141,5 +147,7 @@ class Authenticator constructor(val context: Context) : AbstractAccountAuthentic
         var Intent.authenticatorResponse by IntentExtra.Parcelable<AccountAuthenticatorResponse>(
                 name = AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, customPrefix = ""
         )
+
     }
+
 }

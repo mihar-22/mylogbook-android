@@ -1,9 +1,9 @@
 package com.mylb.mylogbook.presentation.presenter.auth
 
-import com.mylb.mylogbook.domain.delivery.web.Response
+import com.mylb.mylogbook.domain.delivery.remote.Response
 import com.mylb.mylogbook.domain.interactor.auth.SignUpUser
 import com.mylb.mylogbook.domain.interactor.auth.SignUpUser.Params.NewUser
-import com.mylb.mylogbook.presentation.di.scope.PerActivity
+import com.mylb.mylogbook.presentation.di.scope.PerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.Presenter
 import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView
 import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.NAME
@@ -20,7 +20,7 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-@PerActivity
+@PerAndroidComponent
 class SignUpPresenter @Inject constructor(
         private val signUpUser: SignUpUser,
         private val disposables: CompositeDisposable
@@ -103,6 +103,7 @@ class SignUpPresenter @Inject constructor(
     }
 
     private inner class SignUpUserObserver : DisposableObserver<Response<Unit>>() {
+
         override fun onNext(t: Response<Unit>) {
             Timber.d("User signed up")
 
@@ -112,13 +113,15 @@ class SignUpPresenter @Inject constructor(
 
         override fun onComplete() = Unit
 
-        override fun onError(e: Throwable?) {
-            Timber.d("User sign up failed with: %s", e?.message)
+        override fun onError(e: Throwable) {
+            Timber.d("User sign up failed with: %s", e.message)
 
             view!!.hideLoading()
 
             if (e is HttpException && e.code() == 422) view!!.showEmailTakenToast()
             if (e is IOException) view!!.showConnectionTimeoutToast()
         }
+
     }
+
 }

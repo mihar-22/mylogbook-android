@@ -113,4 +113,5 @@ class SignUp {
 
         return "john_doe_$number@mlb.com"
     }
+
 }

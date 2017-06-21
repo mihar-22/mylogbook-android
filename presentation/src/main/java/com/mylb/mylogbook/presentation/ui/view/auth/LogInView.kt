@@ -5,6 +5,7 @@ import com.mylb.mylogbook.presentation.validation.ValidatingView
 import io.reactivex.Observable
 
 interface LogInView : LoadingView, ValidatingView<LogInView.Field> {
+
     val submitButtonClicks: Observable<Unit>
     val forgotPasswordButtonClicks: Observable<Unit>
 
@@ -19,4 +20,5 @@ interface LogInView : LoadingView, ValidatingView<LogInView.Field> {
     fun navigateToDashboard()
 
     enum class Field { EMAIL, PASSWORD }
+
 }

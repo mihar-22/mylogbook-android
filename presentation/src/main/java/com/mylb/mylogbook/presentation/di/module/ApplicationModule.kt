@@ -1,6 +1,7 @@
 package com.mylb.mylogbook.presentation.di.module
 
 import android.content.Context
+import com.mylb.mylogbook.data.cache.KotPrefUserCache
 import com.mylb.mylogbook.data.executor.JobExecutor
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.domain.executor.PostExecutionThread
@@ -11,7 +12,6 @@ import com.mylb.mylogbook.presentation.di.qualifier.ForApplication
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import com.mylb.mylogbook.data.cache.UserCache as KotPrefCache
 
 @Module
 class ApplicationModule(private val application: AndroidApplication) {
@@ -26,5 +26,6 @@ class ApplicationModule(private val application: AndroidApplication) {
     fun providePostExecutionThread(uiThread: UIThread): PostExecutionThread = uiThread
 
     @Provides @Singleton
-    fun provideUserCache(cache: KotPrefCache): UserCache = cache
+    fun provideUserCache(cache: KotPrefUserCache): UserCache = cache
+
 }

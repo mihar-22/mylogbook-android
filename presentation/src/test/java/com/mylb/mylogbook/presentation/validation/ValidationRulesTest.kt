@@ -246,4 +246,5 @@ class ValidationRulesTest {
 
         errors.shouldNotBeEmpty()
     }
+
 }

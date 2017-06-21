@@ -8,15 +8,16 @@ import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.mylb.mylogbook.domain.auth.Auth
+import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.SystemIntent
 import com.mylb.mylogbook.presentation.device.authenticator.Authenticator
 import com.mylb.mylogbook.presentation.di.component.AuthComponent
 import com.mylb.mylogbook.presentation.di.component.DaggerAuthComponent
-import com.mylb.mylogbook.presentation.di.scope.PerActivity
+import com.mylb.mylogbook.presentation.di.scope.PerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.auth.LogInPresenter
 import com.mylb.mylogbook.presentation.ui.activity.BaseActivity
-import com.mylb.mylogbook.presentation.ui.activity.dashboard.DashboardActivity
+import com.mylb.mylogbook.presentation.ui.activity.MainActivity
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.EMAIL
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.PASSWORD
@@ -30,16 +31,17 @@ import me.eugeniomarletti.extras.intent.base.String
 import timber.log.Timber
 import javax.inject.Inject
 
-@PerActivity
+@PerAndroidComponent
 class LogInActivity : BaseActivity(), LogInView {
 
-    @Inject override lateinit var presenter: LogInPresenter
     @Inject lateinit var auth: Auth
+    @Inject lateinit var userCache: UserCache
+    @Inject override lateinit var presenter: LogInPresenter
 
     private val component: AuthComponent
         get() = DaggerAuthComponent.builder()
                 .applicationComponent(applicationComponent)
-                .activityModule(activityModule)
+                .androidModule(activityModule)
                 .build()
 
     override val submitButtonClicks: Observable<Unit>
@@ -61,7 +63,7 @@ class LogInActivity : BaseActivity(), LogInView {
     }
 
     private fun unpackCache() {
-        if (!cache.email.isNullOrEmpty()) { emailEditText.setText(cache.email) }
+        if (!userCache.email.isNullOrEmpty()) { emailEditText.setText(userCache.email) }
     }
 
     private fun unpackIntent() {
@@ -89,7 +91,7 @@ class LogInActivity : BaseActivity(), LogInView {
         Timber.d("Navigating to dashboard")
 
         with (Authenticator.IntentOptions) {
-            if (intent.authenticatorResponse == null) DashboardActivity.start(this@LogInActivity)
+            if (intent.authenticatorResponse == null) MainActivity.start(this@LogInActivity)
         }
 
         finish()
@@ -172,4 +174,5 @@ class LogInActivity : BaseActivity(), LogInView {
         var Intent.password by IntentExtra.String()
         var Intent.justSignedUp by IntentExtra.Boolean()
     }
+
 }

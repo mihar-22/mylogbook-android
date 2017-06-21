@@ -1,18 +1,17 @@
 package com.mylb.mylogbook.presentation.validation
 
-import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.combineLatest
 
-sealed class Validator {
+sealed class Validator : ValidationRule {
 
-    class Required : Validator(), ValidationRule {
+    class Required : Validator() {
         override val errorMessage = "This field is required"
 
         override fun validate(value: CharSequence) = value.isNotEmpty()
     }
 
-    class Min(val min: Int = 0) : Validator(), ValidationRule {
+    class Min(val min: Int = 0) : Validator() {
         override val errorMessage = "Must be at least $min"
 
         override fun validate(value: CharSequence): Boolean {
@@ -22,7 +21,7 @@ sealed class Validator {
         }
     }
 
-    class Max(val max: Int = 0) : Validator(), ValidationRule {
+    class Max(val max: Int = 0) : Validator() {
         override val errorMessage = "Must be no greater than $max"
 
         override fun validate(value: CharSequence): Boolean {
@@ -32,19 +31,19 @@ sealed class Validator {
         }
     }
 
-    class MinLength(val min: Int = 0) : Validator(), ValidationRule {
+    class MinLength(val min: Int = 0) : Validator() {
         override val errorMessage = "Must be at least $min characters"
 
         override fun validate(value: CharSequence) = (value.length >= min)
     }
 
-    class MaxLength(val max: Int = 0) : Validator(), ValidationRule {
+    class MaxLength(val max: Int = 0) : Validator() {
         override val errorMessage = "Must no greater than $max characters"
 
         override fun validate(value: CharSequence) = (value.length <= max)
     }
 
-    class Email : Validator(), ValidationRule {
+    class Email : Validator() {
         override val errorMessage = "Must be a valid email"
 
         override fun validate(value: CharSequence): Boolean {
@@ -54,13 +53,13 @@ sealed class Validator {
         }
     }
 
-    class Regex(val pattern: CharSequence, error: CharSequence) : Validator(), ValidationRule {
+    class Regex(val pattern: CharSequence, error: CharSequence) : Validator() {
         override val errorMessage = error
 
         override fun validate(value: CharSequence) = kotlin.text.Regex(pattern.toString()).matches(value)
     }
 
-    class Date() : Validator(), ValidationRule {
+    class Date() : Validator() {
         override val errorMessage = "YYYY-MM-DD"
 
         override fun validate(value: CharSequence): Boolean {
@@ -71,6 +70,7 @@ sealed class Validator {
     }
 
     companion object {
+
         inline fun <reified T : Enum<T>> validationChanges(
                 view: ValidatingView<T>,
                 crossinline rules: (T) -> ArrayList<ValidationRule>,
@@ -103,5 +103,7 @@ sealed class Validator {
             rules.forEach { rule -> if (!rule.validate(value)) errors.add(rule.errorMessage) }
             return errors
         }
+
     }
+
 }

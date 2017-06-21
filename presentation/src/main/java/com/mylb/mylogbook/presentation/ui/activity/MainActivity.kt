@@ -1,31 +1,34 @@
 package com.mylb.mylogbook.presentation.ui.activity
 
-import android.graphics.Color
+import android.accounts.Account
+import android.app.Fragment
+import android.content.ContentResolver
 import android.os.Bundle
-import com.mylb.mylogbook.domain.delivery.web.Response
-import com.mylb.mylogbook.domain.interactor.auth.CheckAuthentication
-import com.mylb.mylogbook.domain.interactor.auth.CheckAuthentication.Params.Credential
+import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.presentation.R
-import com.mylb.mylogbook.presentation.di.component.AuthComponent
-import com.mylb.mylogbook.presentation.di.component.DaggerAuthComponent
+import com.mylb.mylogbook.presentation.device.authenticator.Auth
+import com.mylb.mylogbook.presentation.device.sync.SyncAdapter
+import com.mylb.mylogbook.presentation.di.component.AndroidComponent
+import com.mylb.mylogbook.presentation.di.component.DaggerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.Presenter
-import com.mylb.mylogbook.presentation.ui.activity.auth.LogInActivity
-import com.mylb.mylogbook.presentation.ui.activity.auth.SignUpActivity
-import com.mylb.mylogbook.presentation.ui.activity.dashboard.DashboardActivity
-import io.reactivex.observers.DisposableObserver
+import com.mylb.mylogbook.presentation.ui.fragment.car.CarsFragment
+import com.mylb.mylogbook.presentation.ui.fragment.dashboard.DashboardFragment
+import com.mylb.mylogbook.presentation.ui.fragment.log.LogFragment
+import com.mylb.mylogbook.presentation.ui.fragment.supervisor.SupervisorsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import me.eugeniomarletti.extras.SimpleActivityCompanion
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
-    @Inject lateinit var checkAuthentication: CheckAuthentication
+    @Inject lateinit var userCache: UserCache
 
     override val presenter: Presenter? = null
 
-    private val component: AuthComponent
-        get() = DaggerAuthComponent.builder()
+    private val component: AndroidComponent
+        get() = DaggerAndroidComponent.builder()
                 .applicationComponent(applicationComponent)
-                .activityModule(activityModule)
+                .androidModule(activityModule)
                 .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,27 +37,46 @@ class MainActivity : BaseActivity() {
 
         component.inject(this)
 
-        if (cache.apiToken != null) redirectToDashboard()
+        onBottomNavigationItemSelection()
 
-        supportActionBar?.hide()
+        if (savedInstanceState != null) return
 
-        window.statusBarColor = Color.TRANSPARENT
+        val initialFragment = DashboardFragment.Builder.build()
+        selectFragment(initialFragment)
 
-        signUpButton.setOnClickListener { SignUpActivity.start(this) }
-        logInButton.setOnClickListener { LogInActivity.start(this) }
+        ContentResolver.addPeriodicSync(
+                Account(userCache.email, Auth.ACCOUNT_TYPE),
+                SyncAdapter.AUTHORITY,
+                Bundle.EMPTY,
+                SyncAdapter.SYNC_INTERVAL
+        )
     }
 
-    private fun redirectToDashboard() {
-        checkAuthentication.execute(CheckAuthenticationObserver(), Credential(cache.email!!))
+    private fun onBottomNavigationItemSelection() =
+            bottomNavigation.setOnNavigationItemSelectedListener { item ->
+                var fragment: Fragment? = null
 
-        DashboardActivity.start(this)
+                when (item.itemId) {
+                    R.id.dashboardMenuItem -> fragment = DashboardFragment.Builder.build()
+                    R.id.carsMenuItem -> fragment = CarsFragment.Builder.build()
+                    R.id.supervisorsMenuItem -> fragment = SupervisorsFragment.Builder.build()
+                    R.id.logMenuItem -> fragment = LogFragment.Builder.build()
+                }
 
-        finish()
+                selectFragment(fragment!!)
+
+                return@setOnNavigationItemSelectedListener true
+            }
+
+    private fun selectFragment(fragment: Fragment) {
+        fragmentManager.beginTransaction()
+                .replace(mainFrameLayout.id, fragment)
+                .addToBackStack(null)
+                .commit()
     }
 
-    private inner class CheckAuthenticationObserver : DisposableObserver<Response<Unit>>() {
-        override fun onNext(t: Response<Unit>?) = Unit
-        override fun onComplete() = Unit
-        override fun onError(e: Throwable?) = Unit
-    }
+    override fun onBackPressed() { moveTaskToBack(true) }
+
+    companion object : SimpleActivityCompanion(MainActivity::class)
+
 }

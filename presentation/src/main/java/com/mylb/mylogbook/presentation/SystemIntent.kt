@@ -10,4 +10,5 @@ object SystemIntent {
         intent.addCategory(Intent.CATEGORY_APP_EMAIL)
         context.startActivity(intent)
     }
+
 }

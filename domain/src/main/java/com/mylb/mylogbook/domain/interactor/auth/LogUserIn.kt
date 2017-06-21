@@ -1,13 +1,11 @@
 package com.mylb.mylogbook.domain.interactor.auth
 
 import com.mylb.mylogbook.domain.auth.Auth
-import com.mylb.mylogbook.domain.cache.UserCache
-import com.mylb.mylogbook.domain.delivery.web.Response
+import com.mylb.mylogbook.domain.delivery.remote.Response
+import com.mylb.mylogbook.domain.delivery.remote.repository.RemoteAuthRepository
 import com.mylb.mylogbook.domain.executor.PostExecutionThread
 import com.mylb.mylogbook.domain.executor.ThreadExecutor
-import com.mylb.mylogbook.domain.interactor.UseCase
-import com.mylb.mylogbook.domain.repository.AuthRepository
-import io.reactivex.Observable
+import com.mylb.mylogbook.domain.interactor.BaseUseCase
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
@@ -16,8 +14,8 @@ class LogUserIn @Inject constructor(
         postExecutionThread: PostExecutionThread,
         disposables: CompositeDisposable,
         private val auth: Auth,
-        private val repository: AuthRepository
-) : UseCase<Response<Map<String, String>>, LogUserIn.Params.Credentials>(
+        private val repository: RemoteAuthRepository
+) : BaseUseCase<Response<Map<String, String>>, LogUserIn.Params.Credentials>(
         threadExecutor, postExecutionThread, disposables
 ) {
 
@@ -30,6 +28,9 @@ class LogUserIn @Inject constructor(
                     }
 
     companion object Params {
+
         class Credentials(val email: String, val password: String)
+
     }
+
 }

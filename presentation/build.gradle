@@ -6,37 +6,37 @@ apply plugin: 'kotlin-android-extensions'
 android {
     def config = rootProject.ext
 
-    compileSdkVersion config.androidCompileSdkVersion
-    buildToolsVersion config.androidBuildToolsVersion
+    compileSdkVersion               config.androidCompileSdkVersion
+    buildToolsVersion               config.androidBuildToolsVersion
 
     defaultConfig {
-        minSdkVersion config.androidMinSdkVersion
-        targetSdkVersion config.androidTargetSdkVersion
+        minSdkVersion               config.androidMinSdkVersion
+        targetSdkVersion            config.androidTargetSdkVersion
 
-        applicationId config.androidApplicationId
-        versionCode config.androidVersionCode
-        versionName config.androidVersionName
-        testInstrumentationRunner config.testInstrumentationRunner
-        testApplicationId config.testApplicationId
+        applicationId               config.androidApplicationId
+        versionCode                 config.androidVersionCode
+        versionName                 config.androidVersionName
+        testInstrumentationRunner   config.testInstrumentationRunner
+        testApplicationId           config.testApplicationId
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility         JavaVersion.VERSION_1_7
+        targetCompatibility         JavaVersion.VERSION_1_7
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
-            buildConfigField "String", "MYLB_HOST", "\"10.0.2.2\""
-            buildConfigField "String", "API_URL", "\"http://10.0.2.2:8000/api/v1/\""
+            applicationIdSuffix     ".debug"
+            buildConfigField        "String", "MYLB_HOST", "\"10.0.2.2\""
+            buildConfigField        "String", "API_URL", "\"http://10.0.2.2:8000/api/v1/\""
         }
 
         release {
-            minifyEnabled false
-            buildConfigField "String", "MYLB_HOST", "\"mylb.com.au\""
-            buildConfigField "String", "API_URL", "\"https://mylb.com.au/api/v1/\""
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled       false
+            buildConfigField    "String", "MYLB_HOST", "\"mylb.com.au\""
+            buildConfigField    "String", "API_URL", "\"https://mylb.com.au/api/v1/\""
+            proguardFiles       getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -71,27 +71,26 @@ kapt {
 dependencies {
     def libraries = rootProject.ext.libraries
 
-    compile project(':domain')
+    compile (project(':domain')) { exclude module: 'joda-time' }
     compile project(':data')
 
     provided libraries.javaxAnnotation
 
+    // Annotation Processors
+    kapt libraries.daggerCompiler
+
     // General
     compile libraries.dagger
     compile libraries.rxJava
-
-    // Debug
-    compile libraries.leakCanary
-    compile libraries.timber
-
-    // Android
     compile libraries.rxAndroid
-    compile libraries.extrasDelegates
+    compile libraries.stetho
+    compile libraries.stethoOkHttp
     compile libraries.androidAppCompat
     compile libraries.androidAnnotations
     compile libraries.androidRecyclerView
     compile libraries.androidConstraintLayout
     compile libraries.androidDesign
+    compile libraries.androidJoda
 
     // Kotlin
     compile libraries.kotlin
@@ -99,13 +98,17 @@ dependencies {
     compile libraries.rxBinding
     compile libraries.rxAppCompat
     compile libraries.rxDesign
+    compile libraries.extrasDelegates
 
-    kapt libraries.daggerCompiler
+    // Debug
+    compile libraries.leakCanary
+    compile libraries.timber
 
     // Testing
     testCompile libraries.junit
     testCompile libraries.mockito
     testCompile libraries.kluent
+    testCompile libraries.jodaTime
 
     // Android Testing
     androidTestCompile libraries.mockito

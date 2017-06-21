@@ -79,4 +79,5 @@ class ValidatorTest {
         given(mockView.textChanges(TestForm.FIELD1)).willReturn(Observable.just("", "a", "ab", "abc"))
         given(mockView.textChanges(TestForm.FIELD2)).willReturn(Observable.just("", "a", "ab", "abc"))
     }
+
 }

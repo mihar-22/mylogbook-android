@@ -110,4 +110,5 @@ class LogInPresenterTest {
 
         verify(mockView).enableForgotPasswordButton(false)
     }
+
 }

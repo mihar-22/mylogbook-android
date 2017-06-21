@@ -37,6 +37,7 @@ class JobExecutor @Inject constructor() : ThreadExecutor {
     }
 
     private class JobThreadFactory: ThreadFactory {
+
         private var counter = 0
 
         override fun newThread(runnable: Runnable): Thread {
@@ -46,6 +47,7 @@ class JobExecutor @Inject constructor() : ThreadExecutor {
         companion object {
             private val THREAD_NAME = "android_"
         }
+
     }
 
     companion object {
@@ -54,4 +56,5 @@ class JobExecutor @Inject constructor() : ThreadExecutor {
         private val KEEP_ALIVE_TIME = 10
         private val KEEP_ALIVE_TIME_UNIT = TimeUnit.SECONDS
     }
+
 }

@@ -9,12 +9,13 @@ import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.test.espresso.action.clear
+import com.mylb.mylogbook.presentation.test.espresso.action.clearThenType
 import com.mylb.mylogbook.presentation.test.espresso.action.click
 import com.mylb.mylogbook.presentation.test.espresso.action.type
 import com.mylb.mylogbook.presentation.test.espresso.assertion.*
 import com.mylb.mylogbook.presentation.test.espresso.resource.OkHttpResource
+import com.mylb.mylogbook.presentation.ui.activity.MainActivity
 import com.mylb.mylogbook.presentation.ui.activity.auth.LogInActivity
-import com.mylb.mylogbook.presentation.ui.activity.dashboard.DashboardActivity
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
@@ -65,7 +66,14 @@ class LogIn {
         seeNoError(passwordTextInputLayout)
 
         click(submitButton)
-        intended(hasComponent(DashboardActivity::class.java.name))
+        intended(hasComponent(MainActivity::class.java.name))
+    }
+
+    @Test
+    fun i_can_see_bad_credentials_toast() {
+        type(passwordEditText, "wrong password")
+        click(submitButton)
+        seeToast(R.string.error_invalid_credentials)
     }
 
     @Test
@@ -78,4 +86,5 @@ class LogIn {
     }
 
     private class User(val email: String, val password: String)
+
 }

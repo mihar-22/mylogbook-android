@@ -69,4 +69,5 @@ class SignUpPresenterTest {
         verify(mockView).showLoading()
         verify(mockUseCase).execute(any(), any())
     }
+
 }

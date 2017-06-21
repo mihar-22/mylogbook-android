@@ -5,6 +5,7 @@ import com.mylb.mylogbook.presentation.validation.ValidatingView
 import io.reactivex.Observable
 
 interface SignUpView : LoadingView, ValidatingView<SignUpView.Field> {
+
     val submitButtonClicks: Observable<Unit>
 
     fun text(field: SignUpView.Field): CharSequence
@@ -14,4 +15,5 @@ interface SignUpView : LoadingView, ValidatingView<SignUpView.Field> {
     fun navigateToLogIn()
 
     enum class Field { NAME, EMAIL, PASSWORD, BIRTHDATE }
+
 }

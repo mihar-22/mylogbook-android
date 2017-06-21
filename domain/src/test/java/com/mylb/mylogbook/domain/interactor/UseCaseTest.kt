@@ -3,11 +3,11 @@ package com.mylb.mylogbook.domain.interactor
 import com.mylb.mylogbook.domain.executor.PostExecutionThread
 import com.mylb.mylogbook.domain.executor.ThreadExecutor
 import com.mylb.mylogbook.domain.test.rule.RxTestScheduler
+import com.nhaarman.mockito_kotlin.given
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import org.amshove.kluent.shouldBe
-import org.amshove.kluent.shouldBeTrue
 import org.amshove.kluent.shouldEqual
 import org.junit.Before
 import org.junit.Rule
@@ -15,11 +15,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.BDDMockito.given
-import sun.invoke.empty.Empty
 
 @RunWith(MockitoJUnitRunner::class)
 class UseCaseTest {
+
     lateinit private var useCase: TestUseCase
 
     lateinit private var testObserver: TestDisposableObserver<Any>
@@ -32,6 +31,9 @@ class UseCaseTest {
 
     @Before
     fun setUp() {
+        given(postExecutionThread.scheduler).willReturn(testScheduler.main)
+
+        testObserver = TestDisposableObserver()
         testDisposables = CompositeDisposable()
 
         useCase = TestUseCase(threadExecutor, postExecutionThread, testDisposables)
@@ -55,18 +57,22 @@ class UseCaseTest {
             threadExecutor: ThreadExecutor,
             postExecutionThread: PostExecutionThread,
             disposables: CompositeDisposable
-    ) : UseCase<Any, EmptyParams>(threadExecutor, postExecutionThread, disposables) {
+    ) : BaseUseCase<Any, EmptyParams>(threadExecutor, postExecutionThread, disposables) {
 
         override fun buildObservable(params: EmptyParams): Observable<Any> = Observable.empty()
+
     }
 
     private class TestDisposableObserver<T> : DisposableObserver<T>() {
+
         var valuesCount = 0
 
         override fun onNext(value: T) { valuesCount++ }
         override fun onError(e: Throwable) {}
         override fun onComplete() {}
+
     }
 
     private class EmptyParams {}
+
 }

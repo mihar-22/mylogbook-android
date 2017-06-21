@@ -8,6 +8,7 @@ import org.junit.runners.model.Statement
 import java.util.concurrent.TimeUnit
 
 class RxTestScheduler : TestRule {
+
     private var scheduler = TestScheduler()
 
     val delay: Long = 50
@@ -29,4 +30,5 @@ class RxTestScheduler : TestRule {
             }
         }
     }
+
 }

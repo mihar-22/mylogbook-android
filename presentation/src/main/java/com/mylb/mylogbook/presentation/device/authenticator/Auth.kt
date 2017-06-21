@@ -3,15 +3,13 @@ package com.mylb.mylogbook.presentation.device.authenticator
 import android.accounts.Account
 import android.accounts.AccountAuthenticatorResponse
 import android.accounts.AccountManager
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.mylb.mylogbook.domain.auth.Auth
 import timber.log.Timber
+import javax.inject.Inject
 
-class Auth constructor(context: Context) : Auth {
-
-    private val accountManager = AccountManager.get(context)
+class Auth constructor(private val accountManager: AccountManager) : Auth {
 
     private var authenticatorIntent: Intent? = null
 
@@ -25,11 +23,7 @@ class Auth constructor(context: Context) : Auth {
     override fun <T> processRequest(request: T) {
         Timber.d("Processing request")
 
-        if (request !is Intent) {
-            Timber.d("Unknown request type")
-
-            throw ClassCastException("Could not cast request to Intent")
-        }
+        if (request !is Intent) throw ClassCastException("Request must be an intent")
 
         with (Authenticator.IntentOptions) {
             authenticatorResponse = request.authenticatorResponse
@@ -65,9 +59,25 @@ class Auth constructor(context: Context) : Auth {
             accountManager.removeAccount(account, null, null)
     }
 
-    fun hasAccount(): Boolean = accountManager.accounts.isNotEmpty()
+    override fun accountExists() = accountManager.accounts.isNotEmpty()
 
-    fun peekToken(account: Account): String? = accountManager.peekAuthToken(account, TOKEN_TYPE_FULL_ACCESS)
+    override fun isAuthenticated(): Boolean {
+        Timber.d("Checking if user is authenticated")
+
+        val account = accountManager.accounts.firstOrNull()
+
+        Timber.d("Found account %s", account?.name)
+
+        return (account != null) && (peekToken(account) != null)
+    }
+
+    override fun <T> peekToken(account: T): String? {
+        if (account !is Account) throw ClassCastException("Account must be an android account")
+
+        Timber.d("Peeking at token for: %s", account.name)
+
+        return accountManager.peekAuthToken(account, TOKEN_TYPE_FULL_ACCESS)
+    }
 
     private fun finish() {
         Timber.d("Finishing")
@@ -114,4 +124,5 @@ class Auth constructor(context: Context) : Auth {
 
         const val ERROR_CODE_ONLY_ONE_ACCOUNT = 1
     }
+
 }
