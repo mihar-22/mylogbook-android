@@ -1,17 +1,9 @@
 package com.mylb.mylogbook.presentation.validation
 
-import io.reactivex.Observable
+import android.support.design.widget.TextInputLayout
 
-interface ValidatingView<T : Enum<T>> {
+interface ValidatingView<T> where T : Enum<T>, T : ValidatableForm {
 
-    fun textChanges(field: T): Observable<CharSequence>
-    fun showError(field: T, error: CharSequence?)
-
-    interface Presenter<T> {
-
-        fun validationRules(field: T): ArrayList<ValidationRule>
-        fun observeValidationChanges()
-
-    }
+    fun textInputLayout(field: T): TextInputLayout?
 
 }

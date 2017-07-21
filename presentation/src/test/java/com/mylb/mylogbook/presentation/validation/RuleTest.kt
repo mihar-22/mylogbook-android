@@ -1,15 +1,16 @@
 package com.mylb.mylogbook.presentation.validation
 
-import org.amshove.kluent.*
+import org.amshove.kluent.shouldBeFalse
+import org.amshove.kluent.shouldBeTrue
 import org.junit.Test
 
-class ValidationRulesTest {
+class RuleTest {
 
     @Test
     fun Required_InputProvided_True() {
         val value = "a"
 
-        val isValid = Validator.Required().validate(value)
+        val isValid = Rule.Required().validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -18,7 +19,25 @@ class ValidationRulesTest {
     fun Required_EmptyInput_False() {
         val value = ""
 
-        val isValid = Validator.Required().validate(value)
+        val isValid = Rule.Required().validate(value)
+
+        isValid.shouldBeFalse()
+    }
+
+    @Test
+    fun AlphaNum_AlphaNumString_True() {
+        val value = "abc123"
+
+        val isValid = Rule.AlphaNum().validate(value)
+
+        isValid.shouldBeTrue()
+    }
+
+    @Test
+    fun AlphaNum_StringWithInvalidChar_False() {
+        val value = "abc!123"
+
+        val isValid = Rule.AlphaNum().validate(value)
 
         isValid.shouldBeFalse()
     }
@@ -27,7 +46,7 @@ class ValidationRulesTest {
     fun Min_NumberGreaterThanMin_True() {
         val value = "4"
 
-        val isValid = Validator.Min(2).validate(value)
+        val isValid = Rule.Min(2).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -36,7 +55,7 @@ class ValidationRulesTest {
     fun Min_NumberEqualToMin_True() {
         val value = "2"
 
-        val isValid = Validator.Min(2).validate(value)
+        val isValid = Rule.Min(2).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -45,7 +64,7 @@ class ValidationRulesTest {
     fun Min_NumberLessThanMin_False() {
         val value = "1"
 
-        val isValid = Validator.Min(2).validate(value)
+        val isValid = Rule.Min(2).validate(value)
 
         isValid.shouldBeFalse()
     }
@@ -54,7 +73,7 @@ class ValidationRulesTest {
     fun Min_Empty_False() {
         val value = ""
 
-        val isValid = Validator.Min(2).validate(value)
+        val isValid = Rule.Min(2).validate(value)
 
         isValid.shouldBeFalse()
     }
@@ -63,14 +82,14 @@ class ValidationRulesTest {
     fun Min_Alpha_NumberFormatException() {
         val value = "a"
 
-        Validator.Min(2).validate(value)
+        Rule.Min(2).validate(value)
     }
 
     @Test
     fun Min_EmptyInput_True() {
         val value = "2"
 
-        val isValid = Validator.Min(2).validate(value)
+        val isValid = Rule.Min(2).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -79,7 +98,7 @@ class ValidationRulesTest {
     fun Max_NumberLessThanMax_True() {
         val value = "2"
 
-        val isValid = Validator.Max(4).validate(value)
+        val isValid = Rule.Max(4).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -88,7 +107,7 @@ class ValidationRulesTest {
     fun Max_NumberEqualToMax_True() {
         val value = "4"
 
-        val isValid = Validator.Max(4).validate(value)
+        val isValid = Rule.Max(4).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -97,7 +116,7 @@ class ValidationRulesTest {
     fun Max_NumberGreaterThanMax_False() {
         val value = "4"
 
-        val isValid = Validator.Max(2).validate(value)
+        val isValid = Rule.Max(2).validate(value)
 
         isValid.shouldBeFalse()
     }
@@ -106,14 +125,14 @@ class ValidationRulesTest {
     fun Max_Alpha_NumberFormatException() {
         val value = "a"
 
-        Validator.Max(4).validate(value)
+        Rule.Max(4).validate(value)
     }
 
     @Test
     fun Max_EmptyInput_True() {
         val value = ""
 
-        val isValid = Validator.Max(4).validate(value)
+        val isValid = Rule.Max(4).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -122,7 +141,7 @@ class ValidationRulesTest {
     fun MinLength_LengthGreaterThanMin_True() {
         val value = "abc"
 
-        val isValid = Validator.MinLength(2).validate(value)
+        val isValid = Rule.MinLength(2).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -131,7 +150,7 @@ class ValidationRulesTest {
     fun MinLength_LengthEqualToMin_True() {
         val value = "ab"
 
-        val isValid = Validator.MinLength(2).validate(value)
+        val isValid = Rule.MinLength(2).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -140,7 +159,7 @@ class ValidationRulesTest {
     fun MinLength_LengthLessThanMin_False() {
         val value = "a"
 
-        val isValid = Validator.MinLength(2).validate(value)
+        val isValid = Rule.MinLength(2).validate(value)
 
         isValid.shouldBeFalse()
     }
@@ -149,7 +168,7 @@ class ValidationRulesTest {
     fun MaxLength_LengthLessThanMax_True() {
         val value = "ab"
 
-        val isValid = Validator.MaxLength(2).validate(value)
+        val isValid = Rule.MaxLength(2).validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -158,7 +177,7 @@ class ValidationRulesTest {
     fun MaxLength_LengthGreaterThanMax_False() {
         val value = "abc"
 
-        val isValid = Validator.MaxLength(2).validate(value)
+        val isValid = Rule.MaxLength(2).validate(value)
 
         isValid.shouldBeFalse()
     }
@@ -167,7 +186,7 @@ class ValidationRulesTest {
     fun Email_ValidEmail_True() {
         val email = "john_doe@gmail.com"
 
-        val isValid = Validator.Email().validate(email)
+        val isValid = Rule.Email().validate(email)
 
         isValid.shouldBeTrue()
     }
@@ -176,7 +195,7 @@ class ValidationRulesTest {
     fun Email_InvalidEmail_False() {
         val email = "invalidgmail.com"
 
-        val isValid = Validator.Email().validate(email)
+        val isValid = Rule.Email().validate(email)
 
         isValid.shouldBeFalse()
     }
@@ -186,7 +205,7 @@ class ValidationRulesTest {
         val pattern = "^\\d{4}$"
         val value = "2222"
 
-        val isValid = Validator.Regex(pattern, "error").validate(value)
+        val isValid = Rule.Regex(pattern, "error").validate(value)
 
         isValid.shouldBeTrue()
     }
@@ -196,7 +215,7 @@ class ValidationRulesTest {
         val pattern = "^\\d{4}$"
         val value = "2"
 
-        val isValid = Validator.Regex(pattern, "error").validate(value)
+        val isValid = Rule.Regex(pattern, "error").validate(value)
 
         isValid.shouldBeFalse()
     }
@@ -205,7 +224,7 @@ class ValidationRulesTest {
     fun Date_ValidDateFormat_True() {
         val date = "1993-09-10"
 
-        val isValid = Validator.Date().validate(date)
+        val isValid = Rule.Date().validate(date)
 
         isValid.shouldBeTrue()
     }
@@ -214,37 +233,9 @@ class ValidationRulesTest {
     fun Date_InvalidDateFormat_False() {
         val date = "10-09-1993"
 
-        val isValid = Validator.Date().validate(date)
+        val isValid = Rule.Date().validate(date)
 
         isValid.shouldBeFalse()
-    }
-
-    @Test
-    fun Validate_ValidInput_ErrorsEmpty() {
-        val value = "johnDoe"
-
-        val rules: ArrayList<ValidationRule> = arrayListOf(
-                Validator.Required(),
-                Validator.MinLength(6)
-        )
-
-        val errors = Validator.validate(value, rules)
-
-        errors.shouldBeEmpty()
-    }
-
-    @Test
-    fun Validate_InvalidInput_ErrorsNotEmpty() {
-        val value = "john"
-
-        val rules: ArrayList<ValidationRule> = arrayListOf(
-                Validator.Required(),
-                Validator.MinLength(6)
-        )
-
-        val errors = Validator.validate(value, rules)
-
-        errors.shouldNotBeEmpty()
     }
 
 }

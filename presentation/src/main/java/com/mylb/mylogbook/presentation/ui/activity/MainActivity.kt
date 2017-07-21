@@ -4,6 +4,7 @@ import android.accounts.Account
 import android.app.Fragment
 import android.content.ContentResolver
 import android.os.Bundle
+import android.view.View
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.device.authenticator.Auth
@@ -41,8 +42,7 @@ class MainActivity : BaseActivity() {
 
         if (savedInstanceState != null) return
 
-        val initialFragment = DashboardFragment.Builder.build()
-        selectFragment(initialFragment)
+        startFragment(DashboardFragment.build())
 
         ContentResolver.addPeriodicSync(
                 Account(userCache.email, Auth.ACCOUNT_TYPE),
@@ -52,30 +52,27 @@ class MainActivity : BaseActivity() {
         )
     }
 
+    fun showBottomNavigation() { bottomNavigation.visibility = View.VISIBLE }
+
+    fun hideBottomNavigation() { bottomNavigation.visibility = View.GONE }
+
     private fun onBottomNavigationItemSelection() =
             bottomNavigation.setOnNavigationItemSelectedListener { item ->
-                var fragment: Fragment? = null
-
                 when (item.itemId) {
-                    R.id.dashboardMenuItem -> fragment = DashboardFragment.Builder.build()
-                    R.id.carsMenuItem -> fragment = CarsFragment.Builder.build()
-                    R.id.supervisorsMenuItem -> fragment = SupervisorsFragment.Builder.build()
-                    R.id.logMenuItem -> fragment = LogFragment.Builder.build()
+                    R.id.dashboardMenuItem -> startFragment(DashboardFragment.build())
+                    R.id.carsMenuItem -> startFragment(CarsFragment.build())
+                    R.id.supervisorsMenuItem -> startFragment(SupervisorsFragment.build())
+                    R.id.logMenuItem -> startFragment(LogFragment.build())
                 }
-
-                selectFragment(fragment!!)
 
                 return@setOnNavigationItemSelectedListener true
             }
 
-    private fun selectFragment(fragment: Fragment) {
+    private fun startFragment(fragment: Fragment) {
         fragmentManager.beginTransaction()
                 .replace(mainFrameLayout.id, fragment)
-                .addToBackStack(null)
                 .commit()
     }
-
-    override fun onBackPressed() { moveTaskToBack(true) }
 
     companion object : SimpleActivityCompanion(MainActivity::class)
 

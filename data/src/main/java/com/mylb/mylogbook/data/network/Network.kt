@@ -17,7 +17,9 @@ object Network {
     val timeZone = DateTimeZone.UTC
     val dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
     val dateTimeFormat =  DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
-    val now = DateTime.now(timeZone)
+
+    val now
+        get() = DateTime.now(timeZone)
 
     val converter: Gson = buildConverter()
             .registerTypeAdapter(DateTime::class.java, JodaDateTimeSerializer())

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="45dp"
+    android:height="45dp"
+    android:viewportWidth="45"
+    android:viewportHeight="45">
+
+    <path
+        android:fillColor="#bbbdbf"
+        android:pathData="M7.12,12 L37.88,12 Q38.66,12,38.66,12.78 L38.66,13.11 Q38.66,13.89,37.88,13.89
+L7.12,13.89 Q6.34,13.89,6.34,13.11 L6.34,12.78 Q6.34,12,7.12,12 Z" />
+    <path
+        android:fillColor="#bbbdbf"
+        android:pathData="M3.33,18.37 L41.68,18.37 Q42.63,18.37,42.63,19.32 L42.63,19.31
+Q42.63,20.26,41.68,20.26 L3.33,20.26 Q2.38,20.26,2.38,19.31 L2.38,19.32
+Q2.38,18.37,3.33,18.37 Z" />
+    <path
+        android:fillColor="#bbbdbf"
+        android:pathData="M3.33,24.74 L41.68,24.74 Q42.63,24.74,42.63,25.69 L42.63,25.68
+Q42.63,26.63,41.68,26.63 L3.33,26.63 Q2.38,26.63,2.38,25.68 L2.38,25.69
+Q2.38,24.74,3.33,24.74 Z" />
+    <path
+        android:fillColor="#bbbdbf"
+        android:pathData="M7.27,31.11 L37.72,31.11 Q38.65,31.11,38.65,32.04 L38.65,32.07
+Q38.65,33,37.72,33 L7.27,33 Q6.34,33,6.34,32.07 L6.34,32.04
+Q6.34,31.11,7.27,31.11 Z" />
+</vector>

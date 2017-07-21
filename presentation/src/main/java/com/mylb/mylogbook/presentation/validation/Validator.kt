@@ -1,109 +1,38 @@
 package com.mylb.mylogbook.presentation.validation
 
+import android.support.design.widget.TextInputLayout
+import com.jakewharton.rxbinding2.widget.textChanges
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.combineLatest
 
-sealed class Validator : ValidationRule {
+fun TextInputLayout.validationChanges(rules: List<ValidationRule>): Observable<Boolean> = this.editText!!
+        .textChanges()
+        .skip(1)
+        .map { it.trim() }
+        .map { validate(it, rules) }
+        .doOnNext { this.error = it.firstOrNull() }
+        .doOnNext { this.isErrorEnabled = (!it.isEmpty()) }
+        .map { it.isEmpty() }
 
-    class Required : Validator() {
-        override val errorMessage = "This field is required"
+fun validate(value: CharSequence, rules: List<ValidationRule>): List<CharSequence> {
+    val errors = ArrayList<CharSequence>()
 
-        override fun validate(value: CharSequence) = value.isNotEmpty()
+    rules.forEach { rule -> if (!rule.validate(value)) errors.add(rule.errorMessage) }
+
+    return errors
+}
+
+inline fun <reified T> onFormValidationChanges(
+        view: ValidatingView<T>
+): Observable<Boolean> where T : Enum<T>, T : ValidatableForm {
+
+    val validations = arrayListOf<Observable<Boolean>>()
+
+    enumValues<T>().forEach { field ->
+        val validationChanges = view.textInputLayout(field)?.validationChanges(field.rules() ?: listOf())
+
+        if (validationChanges != null) validations.add(validationChanges)
     }
 
-    class Min(val min: Int = 0) : Validator() {
-        override val errorMessage = "Must be at least $min"
-
-        override fun validate(value: CharSequence): Boolean {
-            if (value.isEmpty()) return false
-
-            return value.toString().toInt() >= min
-        }
-    }
-
-    class Max(val max: Int = 0) : Validator() {
-        override val errorMessage = "Must be no greater than $max"
-
-        override fun validate(value: CharSequence): Boolean {
-            if (value.isEmpty()) return true
-
-            return value.toString().toInt() <= max
-        }
-    }
-
-    class MinLength(val min: Int = 0) : Validator() {
-        override val errorMessage = "Must be at least $min characters"
-
-        override fun validate(value: CharSequence) = (value.length >= min)
-    }
-
-    class MaxLength(val max: Int = 0) : Validator() {
-        override val errorMessage = "Must no greater than $max characters"
-
-        override fun validate(value: CharSequence) = (value.length <= max)
-    }
-
-    class Email : Validator() {
-        override val errorMessage = "Must be a valid email"
-
-        override fun validate(value: CharSequence): Boolean {
-            val pattern = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
-
-            return kotlin.text.Regex(pattern).matches(value)
-        }
-    }
-
-    class Regex(val pattern: CharSequence, error: CharSequence) : Validator() {
-        override val errorMessage = error
-
-        override fun validate(value: CharSequence) = kotlin.text.Regex(pattern.toString()).matches(value)
-    }
-
-    class Date() : Validator() {
-        override val errorMessage = "YYYY-MM-DD"
-
-        override fun validate(value: CharSequence): Boolean {
-            val pattern = "^(19|20)\\d{2}[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])$"
-
-            return kotlin.text.Regex(pattern).matches(value)
-        }
-    }
-
-    companion object {
-
-        inline fun <reified T : Enum<T>> validationChanges(
-                view: ValidatingView<T>,
-                crossinline rules: (T) -> ArrayList<ValidationRule>,
-                crossinline onValidationResult: (T, Boolean) -> Unit
-        ): Observable<Boolean> {
-
-            val validations = ArrayList<Observable<Boolean>>()
-
-            enumValues<T>().forEach { field ->
-                val fieldValidationChanges = view.textChanges(field)
-                        .skip(1)
-                        .map { it.trim() }
-                        .map { value -> Validator.validate(value, rules(field)) }
-                        .doOnNext { errors -> view.showError(field, errors.firstOrNull()) }
-                        .doOnNext { onValidationResult(field, it.isEmpty()) }
-                        .map { it.isEmpty() }
-
-                validations.add(fieldValidationChanges)
-            }
-
-            return validations.combineLatest { !it.contains(false) }
-        }
-
-        fun validate(
-                value: CharSequence,
-                rules: ArrayList<ValidationRule>
-        ): ArrayList<CharSequence> {
-
-            val errors = ArrayList<CharSequence>()
-            rules.forEach { rule -> if (!rule.validate(value)) errors.add(rule.errorMessage) }
-            return errors
-        }
-
-    }
-
+    return validations.combineLatest { !it.contains(false) }
 }

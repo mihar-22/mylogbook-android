@@ -20,6 +20,7 @@ import com.mylb.mylogbook.presentation.di.module.DatabaseModule
 import com.mylb.mylogbook.presentation.di.module.HttpModule
 import com.mylb.mylogbook.presentation.di.qualifier.ForApplication
 import com.mylb.mylogbook.presentation.ui.activity.BaseActivity
+import com.mylb.mylogbook.presentation.ui.fragment.BaseFragment
 import dagger.Component
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -32,6 +33,7 @@ interface ApplicationComponent {
 
     fun inject(activity: BaseActivity)
     fun inject(service: BaseService)
+    fun inject(fragment: BaseFragment)
 
     // Application Module
     @ForApplication fun context(): Context

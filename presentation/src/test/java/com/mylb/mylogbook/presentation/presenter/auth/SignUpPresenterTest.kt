@@ -11,7 +11,6 @@ import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeNull
 import org.amshove.kluent.shouldBeTrue
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
@@ -31,15 +30,17 @@ class SignUpPresenterTest {
         testDisposables = CompositeDisposable()
 
         given(mockView.text(any())).willReturn("")
-        given(mockView.textChanges(any())).willReturn(Observable.empty())
-        given(mockView.submitButtonClicks).willReturn(Observable.just(Unit))
+
+        given(mockView.formValidationChanges).willReturn(Observable.empty())
+        given(mockView.submitButtonClicks).willReturn(Observable.empty())
 
         presenter = SignUpPresenter(mockUseCase, testDisposables)
-        presenter.view = mockView
     }
 
     @Test
     fun SetView_Null_DisposablesCleared() {
+        presenter.view = mockView
+
         testDisposables.size().shouldBe(2)
 
         presenter.view = null
@@ -49,6 +50,8 @@ class SignUpPresenterTest {
 
     @Test
     fun Destroy_Unit_DisposablesDisposedAndViewNull() {
+        presenter.view = mockView
+
         presenter.destroy()
 
         presenter.view.shouldBeNull()
@@ -57,17 +60,38 @@ class SignUpPresenterTest {
 
     @Test
     fun SetView_MockView_SubscribedToViews() {
-        verify(mockView).textChanges(SignUpView.Field.NAME)
-        verify(mockView).textChanges(SignUpView.Field.EMAIL)
-        verify(mockView).textChanges(SignUpView.Field.PASSWORD)
-        verify(mockView).textChanges(SignUpView.Field.BIRTHDATE)
+        presenter.view = mockView
+
         verify(mockView).submitButtonClicks
+        verify(mockView).formValidationChanges
     }
 
     @Test
     fun ObserveSubmitButtonClicks_OnClick_ShowLoadingAndUseCaseExecuted() {
+        given(mockView.submitButtonClicks).willReturn(Observable.just(Unit))
+
+        presenter.view = mockView
+
         verify(mockView).showLoading()
         verify(mockUseCase).execute(any(), any())
+    }
+
+    @Test
+    fun FormValidationChanges_True_SubmitButtonEnabled() {
+        given(mockView.formValidationChanges).willReturn(Observable.just(true))
+
+        presenter.view = mockView
+
+        verify(mockView).enableSubmitButton(true)
+    }
+
+    @Test
+    fun FormValidationChanges_False_SubmitButtonDisabled() {
+        given(mockView.formValidationChanges).willReturn(Observable.just(false))
+
+        presenter.view = mockView
+
+        verify(mockView).enableSubmitButton(false)
     }
 
 }

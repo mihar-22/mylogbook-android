@@ -6,13 +6,7 @@ import com.mylb.mylogbook.domain.interactor.auth.SignUpUser.Params.NewUser
 import com.mylb.mylogbook.presentation.di.scope.PerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.Presenter
 import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView
-import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.NAME
-import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.EMAIL
-import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.PASSWORD
-import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.Field.BIRTHDATE
-import com.mylb.mylogbook.presentation.validation.ValidatingView
-import com.mylb.mylogbook.presentation.validation.ValidationRule
-import com.mylb.mylogbook.presentation.validation.Validator
+import com.mylb.mylogbook.presentation.ui.view.auth.SignUpView.FormField.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
@@ -24,12 +18,10 @@ import javax.inject.Inject
 class SignUpPresenter @Inject constructor(
         private val signUpUser: SignUpUser,
         private val disposables: CompositeDisposable
-) : Presenter, ValidatingView.Presenter<SignUpView.Field> {
+) : Presenter {
 
     var view: SignUpView? = null
         set(view) {
-            Timber.d("Setting view")
-
             field = view
 
             attachView()
@@ -46,56 +38,32 @@ class SignUpPresenter @Inject constructor(
         view = null
     }
 
-    fun attachView() {
-        if (view == null) {
-            Timber.d("View is null")
+    private fun attachView() {
+        Timber.d("Attaching view: %s", (view != null))
 
-            disposables.clear()
-            return
+        disposables.clear()
+
+        if (view != null) {
+            observeFormValidationChanges()
+            observeSubmitButtonClicks()
+        }
+    }
+
+    private fun observeFormValidationChanges() {
+        val formValidationChanges = view!!.formValidationChanges.subscribe {
+            view!!.enableSubmitButton(it)
         }
 
-        observeValidationChanges()
-        observeSubmitButtonClicks()
+        disposables.add(formValidationChanges)
     }
 
-    override fun validationRules(field: SignUpView.Field): ArrayList<ValidationRule> {
-        val rules = ArrayList<ValidationRule>()
-
-        rules.add(Validator.Required())
-
-        when (field) {
-            NAME -> rules.add(Validator.MaxLength(100))
-            EMAIL -> rules.add(Validator.Email())
-            PASSWORD -> rules.add(Validator.MinLength(6))
-            BIRTHDATE -> rules.add(Validator.Date())
-        }
-
-        return rules
-    }
-
-    override fun observeValidationChanges() {
-        Timber.d("Observing validation changes")
-
-        val validationChanges = Validator.validationChanges(view!!, this::validationRules, { _ , _ -> })
-                .subscribe { isFormValid -> view!!.enableSubmitButton(isFormValid) }
-
-        disposables.add(validationChanges)
-    }
-
-    fun observeSubmitButtonClicks() {
-        Timber.d("Observing submit button clicks")
-
+    private fun observeSubmitButtonClicks() {
         val submitButtonClicks = view!!.submitButtonClicks.subscribe {
             view!!.showLoading()
 
             signUpUser.execute(
                     SignUpUserObserver(),
-                    NewUser(
-                            view!!.text(NAME).toString(),
-                            view!!.text(EMAIL).toString(),
-                            view!!.text(PASSWORD).toString(),
-                            view!!.text(BIRTHDATE).toString()
-                    )
+                    NewUser(view!!.text(NAME), view!!.text(EMAIL), view!!.text(PASSWORD), view!!.text(BIRTHDATE))
             )
         }
 

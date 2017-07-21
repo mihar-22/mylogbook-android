@@ -3,8 +3,6 @@ package com.mylb.mylogbook.presentation.presenter.auth
 import com.mylb.mylogbook.domain.interactor.auth.LogUserIn
 import com.mylb.mylogbook.domain.interactor.auth.RequestNewPassword
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView
-import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.EMAIL
-import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.PASSWORD
 import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
@@ -35,7 +33,9 @@ class LogInPresenterTest {
         testDisposables = CompositeDisposable()
 
         given(mockView.text(any())).willReturn("")
-        given(mockView.textChanges(any())).willReturn(Observable.empty())
+
+        given(mockView.emailValidationChanges).willReturn(Observable.empty())
+        given(mockView.formValidationChanges).willReturn(Observable.empty())
         given(mockView.submitButtonClicks).willReturn(Observable.empty())
         given(mockView.forgotPasswordButtonClicks).willReturn(Observable.empty())
 
@@ -46,7 +46,7 @@ class LogInPresenterTest {
     fun SetView_Null_DisposablesCleared() {
         presenter.view = mockView
 
-        testDisposables.size().shouldBe(3)
+        testDisposables.size().shouldBe(4)
 
         presenter.view = null
 
@@ -67,10 +67,10 @@ class LogInPresenterTest {
     fun SetView_MockView_SubscribedToViews() {
         presenter.view = mockView
 
-        verify(mockView).textChanges(EMAIL)
-        verify(mockView).textChanges(PASSWORD)
         verify(mockView).submitButtonClicks
         verify(mockView).forgotPasswordButtonClicks
+        verify(mockView).emailValidationChanges
+        verify(mockView).formValidationChanges
     }
 
     @Test
@@ -94,8 +94,8 @@ class LogInPresenterTest {
     }
 
     @Test
-    fun OnValidationResult_ValidEmail_ForgotPasswordButtonIsEnabled() {
-        given(mockView.textChanges(EMAIL)).willReturn(Observable.just("", "john_doe@mlb.com"))
+    fun EmailValidationChanges_True_ForgotPasswordButtonEnabled() {
+        given(mockView.emailValidationChanges).willReturn(Observable.just(true))
 
         presenter.view = mockView
 
@@ -103,12 +103,30 @@ class LogInPresenterTest {
     }
 
     @Test
-    fun OnValidationResult_InvalidEmail_ForgotPasswordButtonIsDisabled() {
-        given(mockView.textChanges(EMAIL)).willReturn(Observable.just("", "invalid-email"))
+    fun EmailValidationChanges_False_ForgotPasswordButtonDisabled() {
+        given(mockView.emailValidationChanges).willReturn(Observable.just(false))
 
         presenter.view = mockView
 
         verify(mockView).enableForgotPasswordButton(false)
+    }
+
+    @Test
+    fun FormValidationChanges_True_SubmitButtonEnabled() {
+        given(mockView.formValidationChanges).willReturn(Observable.just(true))
+
+        presenter.view = mockView
+
+        verify(mockView).enableSubmitButton(true)
+    }
+
+    @Test
+    fun FormValidationChanges_False_SubmitButtonDisabled() {
+        given(mockView.formValidationChanges).willReturn(Observable.just(false))
+
+        presenter.view = mockView
+
+        verify(mockView).enableSubmitButton(false)
     }
 
 }

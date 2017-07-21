@@ -3,6 +3,7 @@ package com.mylb.mylogbook.presentation.ui.activity
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.presentation.AndroidApplication
 import com.mylb.mylogbook.presentation.di.component.ApplicationComponent
@@ -44,5 +45,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onDestroy()
         presenter?.destroy()
     }
+
+    protected fun showToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
 }

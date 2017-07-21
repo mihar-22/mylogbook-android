@@ -7,12 +7,22 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="textColorError">@color/design_textinput_error_color_light</item>
+
+        <item name="actionModeStyle">@style/ActionModeStyle</item>
+
+        <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
     <!-- Text Appearances -->
     <style name="FloatingLabelTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- Action Mode Style -->
+    <style name="ActionModeStyle" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="background">@color/colorPrimary</item>
+        <item name="android:tint">@android:color/white</item>
     </style>
 
 </resources>

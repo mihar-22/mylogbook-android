@@ -1,5 +1,6 @@
 package com.mylb.mylogbook.data.cache
 
+import android.content.Context
 import com.chibatching.kotpref.KotprefModel
 import com.mylb.mylogbook.data.network.Network
 import com.mylb.mylogbook.domain.cache.UserCache
@@ -10,6 +11,8 @@ import javax.inject.Singleton
 
 @Singleton
 class KotPrefUserCache @Inject constructor() : KotprefModel(), UserCache {
+
+    override val kotprefMode = Context.MODE_MULTI_PROCESS
 
     override var name by nullableStringPref()
     override var email by nullableStringPref()

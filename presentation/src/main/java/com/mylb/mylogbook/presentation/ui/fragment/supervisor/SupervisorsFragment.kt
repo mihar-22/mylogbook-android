@@ -2,6 +2,7 @@ package com.mylb.mylogbook.presentation.ui.fragment.supervisor
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.presenter.Presenter
@@ -13,13 +14,15 @@ class SupervisorsFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        activity.title = getString(R.string.bottom_nav_supervisors)
     }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.fragment_supervisors, container, false)!!
+    ): View {
+        activity.title = getString(R.string.bottom_nav_supervisors)
+
+        return inflater.inflate(R.layout.fragment_supervisors, container, false)!!
+    }
 
     companion object Builder {
 

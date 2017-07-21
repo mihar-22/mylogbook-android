@@ -34,6 +34,38 @@
     // Dashboard
     <string name="dashboard">Dashboard</string>
 
+    // Car
+    <string name="car">Car</string>
+    <string name="car_name">Name</string>
+    <string name="car_registration">Registration</string>
+    <string name="car_type">Type</string>
+    <string name="car_type_content_description">Car Type</string>
+    <string name="car_new_title">New Car</string>
+    <string name="car_edit_title">Edit Car</string>
+
+    <plurals name="cars_deleted">
+        <item quantity="one">Deleted %1$d car</item>
+        <item quantity="other">Deleted %1$d cars</item>
+    </plurals>
+
+    <string-array name="car_types">
+        <item>Sedan</item>
+        <item>Wagon</item>
+        <item>SUV</item>
+        <item>Off Road</item>
+        <item>Hatchback</item>
+        <item>Coupe</item>
+        <item>Convertible</item>
+        <item>Sports</item>
+        <item>Ute</item>
+        <item>Micro</item>
+        <item>Van</item>
+    </string-array>
+
+    // Actions
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+
     // Bottom Nav
     <string name="bottom_nav_dashboard">Dashboard</string>
     <string name="bottom_nav_cars">Cars</string>

@@ -4,9 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
-import com.jakewharton.rxbinding2.widget.textChanges
 import com.mylb.mylogbook.domain.auth.Auth
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.presentation.R
@@ -19,8 +17,9 @@ import com.mylb.mylogbook.presentation.presenter.auth.LogInPresenter
 import com.mylb.mylogbook.presentation.ui.activity.BaseActivity
 import com.mylb.mylogbook.presentation.ui.activity.MainActivity
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView
-import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.EMAIL
-import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.PASSWORD
+import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.FormField.EMAIL
+import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.FormField.PASSWORD
+import com.mylb.mylogbook.presentation.validation.validationChanges
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_log_in.*
 import kotlinx.android.synthetic.main.view_progress_bar.*
@@ -49,6 +48,9 @@ class LogInActivity : BaseActivity(), LogInView {
 
     override val forgotPasswordButtonClicks: Observable<Unit>
         get() = forgotPasswordButton.clicks()
+
+    override val emailValidationChanges: Observable<Boolean>
+        get() = emailTextInputLayout.validationChanges(EMAIL.rules())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,26 +111,14 @@ class LogInActivity : BaseActivity(), LogInView {
         enableForgotPasswordButton(true)
     }
 
-    override fun textChanges(field: LogInView.Field) = when (field) {
-        EMAIL -> emailEditText.textChanges()
-        PASSWORD -> passwordEditText.textChanges()
+    override fun text(field: LogInView.FormField) = when (field) {
+        EMAIL -> emailEditText.text.trim().toString()
+        PASSWORD -> passwordEditText.text.trim().toString()
     }
 
-    override fun showError(field: LogInView.Field, error: CharSequence?) = when (field) {
-        EMAIL -> {
-            emailTextInputLayout.error = error
-            emailTextInputLayout.isErrorEnabled = (!error.isNullOrEmpty())
-        }
-
-        PASSWORD -> {
-            passwordTextInputLayout.error = error
-            passwordTextInputLayout.isErrorEnabled = (!error.isNullOrEmpty())
-        }
-    }
-
-    override fun text(field: LogInView.Field) = when (field) {
-        EMAIL -> emailEditText.text.trim()
-        PASSWORD -> passwordEditText.text.trim()
+    override fun textInputLayout(field: LogInView.FormField) = when(field) {
+        EMAIL -> emailTextInputLayout
+        PASSWORD -> passwordTextInputLayout
     }
 
     override fun showEmailConfirmationDialog() {
@@ -158,8 +148,6 @@ class LogInActivity : BaseActivity(), LogInView {
     override fun showConnectionTimeoutToast() = showToast(getString(R.string.error_connection_timeout))
 
     override fun showNoAccountToast() = showToast(getString(R.string.error_no_account))
-
-    private fun showToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
     override fun enableSubmitButton(isEnabled: Boolean) { submitButton.isEnabled = isEnabled }
 

@@ -8,11 +8,7 @@ import com.mylb.mylogbook.domain.interactor.auth.RequestNewPassword.Params.Reque
 import com.mylb.mylogbook.presentation.di.scope.PerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.Presenter
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView
-import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.EMAIL
-import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.Field.PASSWORD
-import com.mylb.mylogbook.presentation.validation.ValidatingView
-import com.mylb.mylogbook.presentation.validation.ValidationRule
-import com.mylb.mylogbook.presentation.validation.Validator
+import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.FormField.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import retrofit2.HttpException
@@ -25,12 +21,10 @@ class LogInPresenter @Inject constructor(
         private val logUserIn: LogUserIn,
         private val requestNewPassword: RequestNewPassword,
         private val disposables: CompositeDisposable
-) : Presenter, ValidatingView.Presenter<LogInView.Field> {
+) : Presenter {
 
     var view: LogInView? = null
         set(view) {
-            Timber.d("Setting view")
-
             field = view
 
             attachView()
@@ -48,77 +42,54 @@ class LogInPresenter @Inject constructor(
     }
 
     private fun attachView() {
-        if (view == null) {
-            Timber.d("View is null")
+        Timber.d("Attaching view: %s", (view != null))
 
-            disposables.clear()
-            return
-        }
+        disposables.clear()
 
-        observeValidationChanges()
-        observeSubmitButtonClicks()
-        observeForgotPasswordButtonClicks()
-    }
-
-    override fun validationRules(field: LogInView.Field): ArrayList<ValidationRule> {
-        val rules = ArrayList<ValidationRule>()
-
-        rules.add(Validator.Required())
-
-        when (field) {
-            EMAIL -> rules.add(Validator.Email())
-            PASSWORD -> rules.add(Validator.MinLength(6))
-        }
-
-        return rules
-    }
-
-    fun onValidationResult(field: LogInView.Field, isValid: Boolean) {
-        when (field) {
-            EMAIL -> view!!.enableForgotPasswordButton(isValid)
-            else -> { /* no-op */ }
+        if (view != null) {
+            observeEmailValidationChanges()
+            observeFormValidationChanges()
+            observeSubmitButtonClicks()
+            observeForgotPasswordButtonClicks()
         }
     }
 
-    override fun observeValidationChanges() {
-        Timber.d("Observing validation changes")
+    private fun observeEmailValidationChanges() {
+        val emailValidationChanges = view!!.emailValidationChanges.subscribe {
+            view!!.enableForgotPasswordButton(it)
+        }
 
-        val validationChanges = Validator.validationChanges(
-                view!!,
-                this::validationRules,
-                this::onValidationResult
-        ).subscribe { isFormValid -> view!!.enableSubmitButton(isFormValid) }
-
-        disposables.add(validationChanges)
+        disposables.add(emailValidationChanges)
     }
 
-    fun observeSubmitButtonClicks() {
-        Timber.d("Observing submit button clicks")
+    private fun observeFormValidationChanges() {
+        val formValidationChanges = view!!.formValidationChanges.subscribe {
+            view!!.enableSubmitButton(it)
+        }
 
+        disposables.add(formValidationChanges)
+    }
+
+    private fun observeSubmitButtonClicks() {
         val submitButtonClicks = view!!.submitButtonClicks.subscribe {
             view!!.showLoading()
 
             logUserIn.execute(
                     LogUserInObserver(),
-                    Credentials(
-                            view!!.text(EMAIL).toString(),
-                            view!!.text(PASSWORD).toString()
-                    )
+                    Credentials(view!!.text(EMAIL), view!!.text(PASSWORD))
             )
         }
 
         disposables.add(submitButtonClicks)
     }
 
-    fun observeForgotPasswordButtonClicks() {
-        Timber.d("Observing forgot password button clicks")
-
+    private fun observeForgotPasswordButtonClicks() {
         val forgotPasswordButtonClicks = view!!.forgotPasswordButtonClicks.subscribe {
             view!!.showLoading()
 
             requestNewPassword.execute(
                     RequestNewPasswordObserver(),
-                    Requester(view!!.text(EMAIL).toString())
+                    Requester(view!!.text(EMAIL))
             )
         }
 
