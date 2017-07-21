@@ -5,12 +5,9 @@ import android.os.Bundle
 import android.support.v7.view.ActionMode
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
-import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.mylb.mylogbook.data.database.entity.Car
 import com.mylb.mylogbook.presentation.R
-import com.mylb.mylogbook.presentation.di.component.AndroidComponent
-import com.mylb.mylogbook.presentation.di.component.DaggerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.car.CarsPresenter
 import com.mylb.mylogbook.presentation.ui.adapter.car.CarsAdapter
 import com.mylb.mylogbook.presentation.ui.adapter.car.CarsAdapter.ViewHolder
