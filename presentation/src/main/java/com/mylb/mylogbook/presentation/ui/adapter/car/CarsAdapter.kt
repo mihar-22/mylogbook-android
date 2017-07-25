@@ -55,7 +55,7 @@ class CarsAdapter<T : Car> @Inject constructor(
         fun bind(car: T) {
             this.car = car
             itemView.nameTextView.text = car.name
-            itemView.typeImageView.setImageDrawable(itemView.context.carDrawable(car.type))
+            itemView.typeImageView.setImageDrawable(itemView.context.carDrawable(car.body))
         }
 
     }

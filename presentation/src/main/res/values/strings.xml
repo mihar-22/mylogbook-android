@@ -62,6 +62,22 @@
         <item>Van</item>
     </string-array>
 
+    // Supervisor
+    <string name="supervisor">Supervisor</string>
+    <string name="supervisor_name">Name</string>
+    <string name="supervisor_gender">Gender</string>
+    <string name="supervisor_gender_male">Male</string>
+    <string name="supervisor_gender_female">Female</string>
+    <string name="supervisor_accredited">Certified</string>
+    <string name="supervisor_gender_content_description">Supervisor Gender</string>
+    <string name="supervisor_new_title">New Supervisor</string>
+    <string name="supervisor_edit_title">Edit Supervisor</string>
+
+    <plurals name="supervisors_deleted">
+        <item quantity="one">Deleted %1$d supervisor</item>
+        <item quantity="other">Deleted %1$d supervisors</item>
+    </plurals>
+
     // Actions
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>

@@ -12,7 +12,7 @@ import org.joda.time.DateTimeZone
 import com.mylb.mylogbook.domain.resource.Trip as TripResource
 
 @Entity(
-        indices = arrayOf(Index("carId"), Index("supervisorId")),
+        indices = arrayOf(Index("carId"), Index("supervisorId"), Index("remoteId")),
         foreignKeys = arrayOf(
                 ForeignKey(
                         entity = Car::class,

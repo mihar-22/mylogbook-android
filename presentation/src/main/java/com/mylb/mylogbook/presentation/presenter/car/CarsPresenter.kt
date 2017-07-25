@@ -54,7 +54,7 @@ class CarsPresenter<T : Car> @Inject constructor(
 
     fun loadCars() { showCars.execute(ShowCarsObserver(), Unit) }
 
-    fun observeListItemClicks() {
+    private fun observeListItemClicks() {
         val itemClicks = view!!
                 .listItemClicks
                 .filter { !(view!!.isMultiSelectionEnabled) }
@@ -67,7 +67,7 @@ class CarsPresenter<T : Car> @Inject constructor(
         disposables.add(itemClicks)
     }
 
-    fun observeListItemLongClicks() {
+    private fun observeListItemLongClicks() {
         val itemLongClicks = view!!
                 .listItemLongClicks
                 .filter { !(view!!.isMultiSelectionEnabled) }
@@ -82,7 +82,7 @@ class CarsPresenter<T : Car> @Inject constructor(
         disposables.addAll(itemLongClicks)
     }
 
-    fun observeMultiSelectionItemClicks() {
+    private fun observeMultiSelectionItemClicks() {
         val multiSelectionItemClicks = view!!
                 .listItemClicks
                 .filter { view!!.isMultiSelectionEnabled }
@@ -103,7 +103,7 @@ class CarsPresenter<T : Car> @Inject constructor(
         disposables.add(multiSelectionItemClicks)
     }
 
-    fun observeFabClicks() {
+    private fun observeFabClicks() {
         val fabClicks = view!!.fabClicks.subscribe { view!!.navigateToEditCar(null) }
 
         disposables.add(fabClicks)

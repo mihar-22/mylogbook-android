@@ -34,8 +34,6 @@ class CarsFragment : BaseFragment(), CarsView<Car> {
 
     override var isMultiSelectionEnabled = false
 
-    init { retainInstance = true }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

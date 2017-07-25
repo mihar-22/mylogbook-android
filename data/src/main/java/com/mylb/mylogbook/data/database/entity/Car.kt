@@ -11,7 +11,7 @@ import com.mylb.mylogbook.data.network.Network
 import org.joda.time.DateTime
 import com.mylb.mylogbook.domain.resource.Car as CarResource
 
-@Entity(indices = arrayOf(Index("remoteId", unique = true)))
+@Entity(indices = arrayOf(Index("remoteId")))
 class Car(
         override var name: String,
         override var registration: String,
@@ -45,7 +45,6 @@ class Car(
             dest.writeString(type)
             dest.writeInt(id)
             dest.writeInt(remoteId)
-            dest.writeString(remoteId.toString())
             dest.writeSerializable(updatedAt)
             dest.writeSerializable(deletedAt)
         }

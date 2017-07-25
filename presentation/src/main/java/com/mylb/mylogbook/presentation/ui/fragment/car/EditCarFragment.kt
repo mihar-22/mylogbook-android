@@ -76,7 +76,7 @@ class EditCarFragment : BaseFragment(), EditCarView<Car> {
 
             nameEditText.setText(editCar!!.name)
             registrationEditText.setText(editCar!!.registration)
-            typeImageView.setImageDrawable(activity.carDrawable(editCar!!.type))
+            typeImageView.setImageDrawable(activity.carDrawable(editCar!!.body))
             typeSpinner.setSelection(editCar!!.body.ordinal)
         }
     }
@@ -122,7 +122,7 @@ class EditCarFragment : BaseFragment(), EditCarView<Car> {
         val body = carBodies[position]
 
         typeSpinner.setSelection(position)
-        typeImageView.setImageDrawable(activity.carDrawable(body.type))
+        typeImageView.setImageDrawable(activity.carDrawable(body))
     }
 
     companion object Builder : FragmentCompanion<IntentOptions>(IntentOptions, EditCarFragment::class) {
