@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import com.jakewharton.rxbinding2.view.clicks
 import com.mylb.mylogbook.domain.auth.Auth
 import com.mylb.mylogbook.domain.cache.UserCache
@@ -100,6 +101,7 @@ class LogInActivity : BaseActivity(), LogInView {
     }
 
     override fun showLoading() {
+        hideSoftKeyboard()
         progressBar.visibility = View.VISIBLE
         enableSubmitButton(false)
         enableForgotPasswordButton(false)

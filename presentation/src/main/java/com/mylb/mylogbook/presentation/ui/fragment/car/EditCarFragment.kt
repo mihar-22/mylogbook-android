@@ -93,6 +93,7 @@ class EditCarFragment : BaseFragment(), EditCarView<Car> {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        hideSoftKeyboard()
         presenter.onSubmitButtonClick(editCar ?: Car())
 
         return true

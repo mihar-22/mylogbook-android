@@ -42,6 +42,7 @@ class SignUpActivity : BaseActivity(), SignUpView {
     }
 
     override fun showLoading() {
+        hideSoftKeyboard()
         progressBar.visibility = View.VISIBLE
         enableSubmitButton(false)
     }

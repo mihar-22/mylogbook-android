@@ -1,8 +1,10 @@
 package com.mylb.mylogbook.presentation.ui.activity
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.VisibleForTesting
 import android.support.v7.app.AppCompatActivity
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.presentation.AndroidApplication
@@ -47,5 +49,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     protected fun showToast(message: CharSequence) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+
+    fun hideSoftKeyboard() {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        currentFocus.clearFocus()
+        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+    }
 
 }

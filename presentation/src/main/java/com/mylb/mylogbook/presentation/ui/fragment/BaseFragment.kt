@@ -57,6 +57,8 @@ abstract class BaseFragment : Fragment() {
 
     fun hideBottomNavigation() = (activity as MainActivity).hideBottomNavigation()
 
+    fun hideSoftKeyboard() = (activity as MainActivity).hideSoftKeyboard()
+
     protected fun showToast(message: CharSequence) = Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
 
     protected fun popOffBackStack() { activity.fragmentManager.popBackStack() }

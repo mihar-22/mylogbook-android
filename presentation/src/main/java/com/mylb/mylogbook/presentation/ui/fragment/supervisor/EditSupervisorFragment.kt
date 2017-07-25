@@ -85,6 +85,7 @@ class EditSupervisorFragment : BaseFragment(), EditSupervisorView<Supervisor> {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        hideSoftKeyboard()
         presenter.onSubmitButtonClick(editSupervisor ?: Supervisor())
 
         return true
