@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/supervisor_gender"
                 android:textSize="15sp"
-                android:textColor="@color/colorSecondaryText"/>
+                android:textColor="@color/secondaryText"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,7 +82,7 @@
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/accreditedSwitch"
             android:hint="@string/supervisor_accredited"
-            android:textColorHint="@color/colorSecondaryText"
+            android:textColorHint="@color/secondaryText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

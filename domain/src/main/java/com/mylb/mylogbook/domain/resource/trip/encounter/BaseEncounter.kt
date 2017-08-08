@@ -27,6 +27,8 @@ abstract class BaseEncounter<T> constructor() where T : Enum<T>, T : EncounterCo
 
     fun remove(condition: T) = conditions.remove(condition)
 
+    fun isNotEmpty() = conditions.isNotEmpty()
+
     override fun toString() = conditions.map { it.code }.joinToString(",")
 
 }

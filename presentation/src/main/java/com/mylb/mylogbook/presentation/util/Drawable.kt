@@ -15,3 +15,5 @@ fun Context.carDrawable(body: CarBody) = this.getDrawable("car_${body.type.repla
 
 fun Context.supervisorDrawable(gender: SupervisorGender, isAccredited: Boolean) =
         this.getDrawable("supervisor_${gender.displayName.toLowerCase()}${if (isAccredited) "_certified" else ""}")
+
+fun Context.logRecordingDrawable(body: CarBody) = this.getDrawable("log_${body.type.replace(" ", "_")}_recording")

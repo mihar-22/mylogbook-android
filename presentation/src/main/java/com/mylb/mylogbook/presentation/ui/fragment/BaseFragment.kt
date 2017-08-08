@@ -20,6 +20,9 @@ abstract class BaseFragment : Fragment() {
         get() = activity.intent
         set(intent) { activity.intent = intent }
 
+    protected val mainActivity
+        get() = (activity as MainActivity)
+
     protected val appCompatActivity
         get() = (activity as AppCompatActivity)
 
@@ -53,14 +56,26 @@ abstract class BaseFragment : Fragment() {
         presenter?.destroy()
     }
 
-    fun showBottomNavigation() = (activity as MainActivity).showBottomNavigation()
+    fun showBottomNavigation() = mainActivity.showBottomNavigation()
 
-    fun hideBottomNavigation() = (activity as MainActivity).hideBottomNavigation()
+    fun hideBottomNavigation() = mainActivity.hideBottomNavigation()
 
-    fun hideSoftKeyboard() = (activity as MainActivity).hideSoftKeyboard()
+    fun hideSoftKeyboard() = mainActivity.hideSoftKeyboard()
+
+    protected fun isGooglePlayServicesAvailable() = mainActivity.isGooglePlayServicesAvailable()
 
     protected fun showToast(message: CharSequence) = Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
 
     protected fun popOffBackStack() { activity.fragmentManager.popBackStack() }
+
+    protected fun selectBottomNavigationItem(id: Int) = mainActivity.selectBottomNavigationItem(id)
+
+    protected fun clearBackStack() {
+        for (i in 0 .. activity.fragmentManager.backStackEntryCount) {
+            activity.fragmentManager.popBackStack()
+        }
+    }
+
+    open fun onBackButtonPressed() = true
 
 }

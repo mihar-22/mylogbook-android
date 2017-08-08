@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/signUpButton"
-        android:backgroundTint="@android:color/white"
+        android:backgroundTint="@color/white"
         style="@style/Widget.AppCompat.Button" />
 
 </android.support.constraint.ConstraintLayout>

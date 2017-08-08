@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:paddingBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <!-- SUPERVISOR CARD -->
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="132dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="2dp"
+                app:cardUseCompatPadding="true"
+                android:layout_marginEnd="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal|center_vertical">
+
+                    <ImageView
+                        android:id="@+id/supervisorAvatarImageView"
+                        android:src="@drawable/supervisor_male"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:contentDescription="@string/supervisor_gender_content_description"/>
+
+                    <TextView
+                        android:id="@+id/supervisorNameTextView"
+                        android:textSize="12sp"
+                        android:textColor="@color/secondaryText"
+                        android:layout_marginTop="13dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!-- CAR CARD -->
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="132dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="2dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal|center_vertical">
+
+                    <ImageView
+                        android:id="@+id/carTypeImageView"
+                        android:src="@drawable/car_sedan"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:contentDescription="@string/supervisor_gender_content_description"/>
+
+                    <TextView
+                        android:id="@+id/carNameTextView"
+                        android:textSize="12sp"
+                        android:textColor="@color/secondaryText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <!-- WEATHER CARD -->
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="2dp"
+            app:cardUseCompatPadding="true"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:text="@string/log_weather"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <!-- WEATHER FIRST ROW -->
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <!-- CLEAR -->
+
+                    <LinearLayout
+                        android:id="@+id/weatherClearView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/weatherClearImageView"
+                            android:src="@drawable/weather_clear"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/weatherClearTextView"
+                                android:text="@string/log_weather_clear"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/weatherClearCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- RAIN -->
+
+                    <LinearLayout
+                        android:id="@+id/weatherRainView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/weatherRainImageView"
+                            android:src="@drawable/weather_rain"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/weatherRainTextView"
+                                android:text="@string/log_weather_rain"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/weatherRainCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- THUNDER -->
+
+                    <LinearLayout
+                        android:id="@+id/weatherThunderView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/weatherThunderImageView"
+                            android:src="@drawable/weather_thunder"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/weatherThunderTextView"
+                                android:text="@string/log_weather_thunder"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/weatherThunderCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- WEATHER SECOND ROW -->
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <!-- FOG -->
+
+                    <LinearLayout
+                        android:id="@+id/weatherFogView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/weatherFogImageView"
+                            android:src="@drawable/weather_fog"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/weatherFogTextView"
+                                android:text="@string/log_weather_fog"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/weatherFogCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- HAIL -->
+
+                    <LinearLayout
+                        android:id="@+id/weatherHailView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/weatherHailImageView"
+                            android:src="@drawable/weather_hail"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/weatherHailTextView"
+                                android:text="@string/log_weather_hail"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/weatherHailCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- SNOW -->
+
+                    <LinearLayout
+                        android:id="@+id/weatherSnowView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/weatherSnowImageView"
+                            android:src="@drawable/weather_snow"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/weatherSnowTextView"
+                                android:text="@string/log_weather_snow"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/weatherSnowCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- TRAFFIC CARD -->
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="2dp"
+            android:layout_marginTop="8dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:text="@string/log_traffic"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <!-- LIGHT -->
+
+                    <LinearLayout
+                        android:id="@+id/trafficLightView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/trafficLightImageView"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/traffic_light" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/trafficLightTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"
+                                android:text="@string/log_traffic_light"
+                                android:textColor="@color/secondaryText"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/trafficLightCheckImageView"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/material_check_circle"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- MODERATE -->
+
+                    <LinearLayout
+                        android:id="@+id/trafficModerateView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/trafficModerateImageView"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/traffic_medium" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/trafficModerateTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"
+                                android:text="@string/log_traffic_moderate"
+                                android:textColor="@color/secondaryText"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/trafficModerateCheckImageView"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/material_check_circle"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- HEAVY -->
+
+                    <LinearLayout
+                        android:id="@+id/trafficHeavyView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/trafficHeavyImageView"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/traffic_heavy" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/trafficHeavyTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"
+                                android:text="@string/log_traffic_heavy"
+                                android:textColor="@color/secondaryText"
+                                android:textSize="12sp" />
+
+                            <ImageView
+                                android:id="@+id/trafficHeavyCheckImageView"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/material_check_circle"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- ROADS CARD -->
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="2dp"
+            app:cardUseCompatPadding="true"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:text="@string/log_road"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <!-- ROADS FIRST ROW -->
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <!-- LOCAL STREET -->
+
+                    <LinearLayout
+                        android:id="@+id/roadLocalStreetView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/roadLocalStreetImageView"
+                            android:src="@drawable/road_local_street"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/roadLocalStreetTextView"
+                                android:text="@string/log_road_local_street"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/roadLocalStreetCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- MAIN ROAD -->
+
+                    <LinearLayout
+                        android:id="@+id/roadMainRoadView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/roadMainRoadImageView"
+                            android:src="@drawable/road_main_road"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/roadMainRoadTextView"
+                                android:text="@string/log_road_main_road"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/roadMainRoadCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- FREEWAY -->
+
+                    <LinearLayout
+                        android:id="@+id/roadFreewayView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/roadFreewayImageView"
+                            android:src="@drawable/road_freeway"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/roadFreewayTextView"
+                                android:text="@string/log_road_freeway"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/roadFreewayCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- ROADS SECOND ROW -->
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <!-- INNER CITY -->
+
+                    <LinearLayout
+                        android:id="@+id/roadInnerCityView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/roadInnerCityImageView"
+                            android:src="@drawable/road_inner_city"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/roadInnerCityTextView"
+                                android:text="@string/log_road_inner_city"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/roadInnerCityCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- RURAL ROAD -->
+
+                    <LinearLayout
+                        android:id="@+id/roadRuralRoadView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/roadRuralRoadImageView"
+                            android:src="@drawable/road_rural_road"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/roadRuralRoadTextView"
+                                android:text="@string/log_road_rural_road"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/roadRuralRoadCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- GRAVEL -->
+
+                    <LinearLayout
+                        android:id="@+id/roadGravelView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/roadGravelImageView"
+                            android:src="@drawable/road_gravel"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:layout_marginTop="6dp">
+
+                            <TextView
+                                android:id="@+id/roadGravelTextView"
+                                android:text="@string/log_road_gravel"
+                                android:textSize="12sp"
+                                android:textColor="@color/secondaryText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/roadGravelCheckImageView"
+                                android:src="@drawable/material_check_circle"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- ROUTE CARD -->
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="2dp"
+            android:layout_marginTop="8dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:text="@string/log_route"
+                    android:textColor="@color/primaryText"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:id="@+id/mapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="12dp"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/startLocationTextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/log_start_location"
+                    android:layout_marginTop="12dp"
+                    app:hintTextAppearance="@style/FloatingLabelTextAppearance">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/startLocationEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/endLocationTextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/log_end_location"
+                    android:layout_marginTop="8dp"
+                    app:hintTextAppearance="@style/FloatingLabelTextAppearance">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/endLocationEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

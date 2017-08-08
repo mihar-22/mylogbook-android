@@ -8,13 +8,28 @@ sealed class Rule : ValidationRule {
         override fun validate(value: CharSequence) = value.isNotEmpty()
     }
 
+    class Number : Rule() {
+        override val errorMessage = "Only numbers are allowed"
+
+        override fun validate(value: CharSequence): Boolean {
+            try {
+                value.toString().toInt()
+
+                return true
+            } catch (e: NumberFormatException) { return false }
+        }
+
+    }
+
     class Min(val min: Int = 0) : Rule() {
         override val errorMessage = "Must be at least $min"
 
         override fun validate(value: CharSequence): Boolean {
             if (value.isEmpty()) return false
 
-            return value.toString().toInt() >= min
+            val number = value.toString().replace(",", "")
+
+            return Rule.Number().validate(number) && number.toInt() >= min
         }
     }
 
@@ -24,7 +39,9 @@ sealed class Rule : ValidationRule {
         override fun validate(value: CharSequence): Boolean {
             if (value.isEmpty()) return true
 
-            return value.toString().toInt() <= max
+            val number = value.toString().replace(",", "")
+
+            return Rule.Number().validate(number) && number.toInt() <= max
         }
     }
 

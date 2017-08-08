@@ -9,6 +9,7 @@ import com.mylb.mylogbook.domain.executor.ThreadExecutor
 import com.mylb.mylogbook.presentation.AndroidApplication
 import com.mylb.mylogbook.presentation.UIThread
 import com.mylb.mylogbook.presentation.di.qualifier.ForApplication
+import com.patloew.rxlocation.RxLocation
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -27,5 +28,8 @@ class ApplicationModule(private val application: AndroidApplication) {
 
     @Provides @Singleton
     fun provideUserCache(cache: KotPrefUserCache): UserCache = cache
+
+    @Provides @Singleton
+    fun provideRxLocation(@ForApplication context: Context) = RxLocation(context)
 
 }

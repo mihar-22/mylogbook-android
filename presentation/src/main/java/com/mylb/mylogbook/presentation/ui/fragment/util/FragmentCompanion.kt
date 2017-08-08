@@ -10,14 +10,16 @@ abstract class SimpleFragmentCompanion(kClass: KClass<out BaseFragment>) {
 
     protected val javaClass = kClass.java
 
-    fun start(parent: BaseFragment) {
+    fun start(parent: BaseFragment, addToBackStack: Boolean = true) {
         val activity = (parent.activity as MainActivity)
 
-        activity.fragmentManager
+        val transaction = activity.fragmentManager
                 .beginTransaction()
                 .replace(activity.mainFrameLayout.id, javaClass.newInstance())
-                .addToBackStack(null)
-                .commit()
+
+        if (addToBackStack) transaction.addToBackStack(null)
+
+        transaction.commit()
     }
 
 }
@@ -31,6 +33,12 @@ abstract class FragmentCompanion<out IntentOptions>(
         parent.intent = Intent().apply { configure(intentOptions, this) }
 
         start(parent)
+    }
+
+    inline fun start(parent: BaseFragment, addToBackStack: Boolean, configure: IntentOptions.(Intent) -> Unit) {
+        parent.intent = Intent().apply { configure(intentOptions, this) }
+
+        start(parent, addToBackStack)
     }
 
     inline fun <T> Intent.options(block: IntentOptions.(Intent) -> T): T = block(intentOptions, this)

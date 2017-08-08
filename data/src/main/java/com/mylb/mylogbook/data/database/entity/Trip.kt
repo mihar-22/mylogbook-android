@@ -1,6 +1,8 @@
 package com.mylb.mylogbook.data.database.entity
 
 import android.arch.persistence.room.*
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.mylb.mylogbook.data.network.Network
 import com.mylb.mylogbook.domain.resource.trip.encounter.Light
@@ -62,7 +64,7 @@ class Trip(
         override var remoteSupervisorId: Int,
         override var updatedAt: DateTime,
         override var deletedAt: DateTime?
-) : TripResource {
+) : TripResource, Parcelable {
 
     @Ignore
     constructor() : this(
@@ -91,5 +93,69 @@ class Trip(
             updatedAt = Network.now,
             deletedAt = null
     )
+
+    @Ignore
+    constructor(parcel: Parcel) : this(
+            parcel.readInt(),
+            parcel.readDouble(),
+            parcel.readSerializable() as DateTime,
+            parcel.readSerializable() as DateTime,
+            parcel.readDouble(),
+            parcel.readDouble(),
+            parcel.readDouble(),
+            parcel.readDouble(),
+            parcel.readString(),
+            parcel.readString(),
+            Weather(parcel.readString()),
+            Road(parcel.readString()),
+            Traffic(parcel.readString()),
+            Light(parcel.readString()),
+            parcel.readSerializable() as DateTimeZone,
+            (parcel.readInt() != 0),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readInt(),
+            parcel.readSerializable() as DateTime,
+            parcel.readSerializable() as DateTime
+    )
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeInt(odometer)
+        dest.writeDouble(distance)
+        dest.writeSerializable(startedAt)
+        dest.writeSerializable(endedAt)
+        dest.writeDouble(startLatitude)
+        dest.writeDouble(endLatitude)
+        dest.writeDouble(startLongitude)
+        dest.writeDouble(endLongitude)
+        dest.writeString(startLocation)
+        dest.writeString(endLocation)
+        dest.writeString(weather.toString())
+        dest.writeString(road.toString())
+        dest.writeString(traffic.toString())
+        dest.writeString(light.toString())
+        dest.writeSerializable(timeZone)
+        dest.writeInt(id)
+        dest.writeInt(carId)
+        dest.writeInt(supervisorId)
+        dest.writeInt(remoteId)
+        dest.writeInt(remoteCarId)
+        dest.writeInt(remoteSupervisorId)
+        dest.writeSerializable(updatedAt)
+        dest.writeSerializable(deletedAt)
+    }
+
+    override fun describeContents() = 0
+
+    companion object CREATOR : Parcelable.Creator<Trip> {
+
+        override fun createFromParcel(parcel: Parcel) = Trip(parcel)
+
+        override fun newArray(size: Int): Array<Trip?> = arrayOfNulls(size)
+
+    }
 
 }

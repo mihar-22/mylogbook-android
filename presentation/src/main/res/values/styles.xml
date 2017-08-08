@@ -2,27 +2,29 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
 
         <item name="textColorError">@color/design_textinput_error_color_light</item>
 
         <item name="actionModeStyle">@style/ActionModeStyle</item>
 
-        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <!-- Text Appearances -->
     <style name="FloatingLabelTextAppearance" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:textColor">@color/secondaryText</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <!-- Action Mode Style -->
     <style name="ActionModeStyle" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="background">@color/colorPrimary</item>
-        <item name="android:tint">@android:color/white</item>
+        <item name="background">@color/primary</item>
+        <item name="android:tint">@color/white</item>
     </style>
 
 </resources>

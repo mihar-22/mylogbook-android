@@ -53,8 +53,10 @@ abstract class BaseActivity : AppCompatActivity() {
     fun hideSoftKeyboard() {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        currentFocus.clearFocus()
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+        currentFocus?.clearFocus()
+
+        if (inputMethodManager.isAcceptingText)
+            inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
     }
 
 }

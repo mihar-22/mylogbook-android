@@ -78,9 +78,53 @@
         <item quantity="other">Deleted %1$d supervisors</item>
     </plurals>
 
+    // Log
+    <string name="log_odometer">Odometer (km)</string>
+    <string name="log_recording">Recording</string>
+    <string name="log_recording_content_description">Vehicle Driving</string>
+    <string name="log_recording_divider">|</string>
+    <string name="log_prepare_title">Prepare Trip</string>
+    <string name="log_cancel_recording_title">Cancel Recording</string>
+    <string name="log_cancel_recording_message">
+        Are you sure you want to cancel the recording? All progress will be lost.
+    </string>
+
+    <string name="log_weather">Weather</string>
+    <string name="log_weather_clear">Clear</string>
+    <string name="log_weather_rain">Rain</string>
+    <string name="log_weather_thunder">Thunder</string>
+    <string name="log_weather_fog">Fog</string>
+    <string name="log_weather_hail">Hail</string>
+    <string name="log_weather_snow">Snow</string>
+
+    <string name="log_traffic">Traffic</string>
+    <string name="log_traffic_light">Light</string>
+    <string name="log_traffic_moderate">Moderate</string>
+    <string name="log_traffic_heavy">Heavy</string>
+
+    <string name="log_road">Roads</string>
+    <string name="log_road_local_street">Local Street</string>
+    <string name="log_road_main_road">Main Road</string>
+    <string name="log_road_freeway">Freeway</string>
+    <string name="log_road_gravel">Gravel</string>
+    <string name="log_road_inner_city">Inner City</string>
+    <string name="log_road_rural_road">Rural Road</string>
+
+    <string name="log_details">Trip Details</string>
+    <string name="log_route">Route</string>
+    <string name="log_start_location">Started At (Suburb)</string>
+    <string name="log_end_location">Ended At (Suburb)</string>
+
+    // Unit
+    <string name="unit_km">km</string>
+
     // Actions
+    <string name="action_yes">Yes</string>
+    <string name="action_no">No</string>
+    <string name="action_next">Next</string>
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
+    <string name="action_stop">Stop</string>
 
     // Bottom Nav
     <string name="bottom_nav_dashboard">Dashboard</string>

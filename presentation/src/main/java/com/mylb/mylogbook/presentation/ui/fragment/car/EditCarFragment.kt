@@ -81,6 +81,7 @@ class EditCarFragment : BaseFragment(), EditCarView<Car> {
         }
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_save, menu)
 
@@ -122,7 +123,6 @@ class EditCarFragment : BaseFragment(), EditCarView<Car> {
     override fun selectType(position: Int) {
         val body = carBodies[position]
 
-        typeSpinner.setSelection(position)
         typeImageView.setImageDrawable(activity.carDrawable(body))
     }
 

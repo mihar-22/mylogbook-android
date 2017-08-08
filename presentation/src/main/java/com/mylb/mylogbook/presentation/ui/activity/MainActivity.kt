@@ -3,8 +3,11 @@ package com.mylb.mylogbook.presentation.ui.activity
 import android.accounts.Account
 import android.app.Fragment
 import android.content.ContentResolver
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.device.authenticator.Auth
@@ -12,6 +15,7 @@ import com.mylb.mylogbook.presentation.device.sync.SyncAdapter
 import com.mylb.mylogbook.presentation.di.component.AndroidComponent
 import com.mylb.mylogbook.presentation.di.component.DaggerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.Presenter
+import com.mylb.mylogbook.presentation.ui.fragment.BaseFragment
 import com.mylb.mylogbook.presentation.ui.fragment.car.CarsFragment
 import com.mylb.mylogbook.presentation.ui.fragment.dashboard.DashboardFragment
 import com.mylb.mylogbook.presentation.ui.fragment.log.LogFragment
@@ -31,6 +35,9 @@ class MainActivity : BaseActivity() {
                 .applicationComponent(applicationComponent)
                 .androidModule(activityModule)
                 .build()
+
+    private val mainFragment: BaseFragment
+        get() = (fragmentManager.findFragmentById(mainFrameLayout.id) as BaseFragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +59,38 @@ class MainActivity : BaseActivity() {
         )
     }
 
+    override fun onBackPressed() { if (mainFragment.onBackButtonPressed()) super.onBackPressed() }
+
     fun showBottomNavigation() { bottomNavigation.visibility = View.VISIBLE }
 
     fun hideBottomNavigation() { bottomNavigation.visibility = View.GONE }
+
+    fun isGooglePlayServicesAvailable(): Boolean {
+        val api = GoogleApiAvailability.getInstance()
+        val status = api.isGooglePlayServicesAvailable(this)
+
+        if (status != ConnectionResult.SUCCESS) {
+            if (api.isUserResolvableError(status)) {
+                api.getErrorDialog(this, status, ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED, {
+                    onActivityResult(
+                            ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
+                            ConnectionResult.CANCELED,
+                            null
+                    )
+                }).show()
+            }
+
+            return false
+        }
+
+        return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        mainFragment.onActivityResult(requestCode, resultCode, data)
+    }
 
     private fun onBottomNavigationItemSelection() =
             bottomNavigation.setOnNavigationItemSelectedListener { item ->
@@ -67,6 +103,8 @@ class MainActivity : BaseActivity() {
 
                 return@setOnNavigationItemSelectedListener true
             }
+
+    fun selectBottomNavigationItem(id: Int) { bottomNavigation.selectedItemId = id }
 
     private fun startFragment(fragment: Fragment) {
         fragmentManager.beginTransaction()

@@ -21,6 +21,7 @@ import com.mylb.mylogbook.presentation.di.module.HttpModule
 import com.mylb.mylogbook.presentation.di.qualifier.ForApplication
 import com.mylb.mylogbook.presentation.ui.activity.BaseActivity
 import com.mylb.mylogbook.presentation.ui.fragment.BaseFragment
+import com.patloew.rxlocation.RxLocation
 import dagger.Component
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -40,6 +41,7 @@ interface ApplicationComponent {
     fun threadExecutor(): ThreadExecutor
     fun postExecutionThread(): PostExecutionThread
     fun userCache(): UserCache
+    fun rxLocation(): RxLocation
 
     // Http Module
     fun retrofit(): Retrofit

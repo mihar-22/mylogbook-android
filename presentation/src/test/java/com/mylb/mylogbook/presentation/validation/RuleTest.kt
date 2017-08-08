@@ -25,6 +25,24 @@ class RuleTest {
     }
 
     @Test
+    fun Number_Number_True() {
+        val value = "123"
+
+        val isValid = Rule.Number().validate(value)
+
+        isValid.shouldBeTrue()
+    }
+
+    @Test
+    fun Number_String_False() {
+        val value = "string"
+
+        val isValid = Rule.Number().validate(value)
+
+        isValid.shouldBeFalse()
+    }
+
+    @Test
     fun AlphaNum_AlphaNumString_True() {
         val value = "abc123"
 

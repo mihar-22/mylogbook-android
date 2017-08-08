@@ -23,6 +23,7 @@ dependencies {
     compile libraries.retrofit
     compile libraries.rxJava
     compile libraries.jodaTime
+    compile libraries.sunriseSunset
 
     // Kotlin
     compile libraries.kotlin

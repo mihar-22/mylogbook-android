@@ -8,6 +8,7 @@ buildscript {
     ext.rxKotlinVersion = '2.0.3'
     ext.rxAndroidVersion = '2.0.1'
     ext.rxBindingVersion = '2.0.0'
+    ext.rxLocationVersion = '1.0.3'
     ext.gsonVersion = '2.8.0'
     ext.kotPrefVersion = '2.1.1'
     ext.javaxAnnotationVersion = '1.0'
@@ -27,6 +28,8 @@ buildscript {
     ext.androidUiAutomatorVersion = '2.1.2'
     ext.androidRoomVersion = '1.0.0-alpha3'
     ext.stethoVersion = '1.5.0'
+    ext.sunriseSunsetVersion = '1.1.0'
+    ext.googlePlayVersion = '11.2.0'
 
     repositories {
         jcenter()
@@ -69,6 +72,7 @@ allprojects {
             javaxAnnotation:            "javax.annotation:jsr250-api:$javaxAnnotationVersion",
             javaxInject:                "javax.inject:javax.inject:$javaxInjectVersion",
             rxAndroid:                  "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+            rxLocation:                 "com.patloew.rxlocation:rxlocation:$rxLocationVersion",
             stetho:                     "com.facebook.stetho:stetho:$stethoVersion",
             stethoOkHttp:               "com.facebook.stetho:stetho-okhttp3:$stethoVersion",
             androidJoda:                "net.danlew:android.joda:$jodaTimeVersion",
@@ -77,9 +81,16 @@ allprojects {
             androidAnnotations:         "com.android.support:support-annotations:$androidSupportVersion",
             androidConstraintLayout:    "com.android.support.constraint:constraint-layout:$androidConstraintLayoutVersion",
             androidDesign:              "com.android.support:design:$androidSupportVersion",
+            androidCardView:            "com.android.support:cardview-v7:$androidSupportVersion",
             androidRoom:                "android.arch.persistence.room:runtime:$androidRoomVersion",
             androidRoomCompiler:        "android.arch.persistence.room:compiler:$androidRoomVersion",
             androidRoomRx:              "android.arch.persistence.room:rxjava2:$androidRoomVersion",
+            sunriseSunset:              "ca.rmen:lib-sunrise-sunset:$sunriseSunsetVersion",
+
+            // Google Play
+            googlePlayBase:             "com.google.android.gms:play-services-base:$googlePlayVersion",
+            googlePlayMaps:             "com.google.android.gms:play-services-maps:$googlePlayVersion",
+            googlePlayLocation:         "com.google.android.gms:play-services-location:$googlePlayVersion",
 
             // Kotlin
             kotlin:                     "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",

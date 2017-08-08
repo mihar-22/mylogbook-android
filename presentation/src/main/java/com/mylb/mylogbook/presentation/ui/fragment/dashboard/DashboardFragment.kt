@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.presenter.Presenter
 import com.mylb.mylogbook.presentation.ui.fragment.BaseFragment
+import com.mylb.mylogbook.presentation.ui.fragment.util.SimpleFragmentCompanion
 
 class DashboardFragment : BaseFragment() {
 
@@ -14,6 +15,8 @@ class DashboardFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        showBottomNavigation()
     }
 
     override fun onCreateView(
@@ -24,7 +27,7 @@ class DashboardFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_dashboard, container, false)!!
     }
 
-    companion object Builder {
+    companion object Builder : SimpleFragmentCompanion(DashboardFragment::class) {
 
         fun build() = DashboardFragment()
 

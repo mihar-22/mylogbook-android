@@ -18,6 +18,8 @@ android {
         versionName                 config.androidVersionName
         testInstrumentationRunner   config.testInstrumentationRunner
         testApplicationId           config.testApplicationId
+
+        multiDexEnabled             true
     }
 
     compileOptions {
@@ -90,7 +92,14 @@ dependencies {
     compile libraries.androidRecyclerView
     compile libraries.androidConstraintLayout
     compile libraries.androidDesign
+    compile libraries.androidCardView
     compile libraries.androidJoda
+    compile libraries.rxLocation
+
+    // Google Play
+    compile libraries.googlePlayBase
+    compile libraries.googlePlayMaps
+    compile libraries.googlePlayLocation
 
     // Kotlin
     compile libraries.kotlin

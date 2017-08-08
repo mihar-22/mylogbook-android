@@ -9,6 +9,7 @@ import com.mylb.mylogbook.presentation.di.module.ApplicationModule
 import com.mylb.mylogbook.presentation.di.module.DatabaseModule
 import com.mylb.mylogbook.presentation.di.module.HttpModule
 import com.squareup.leakcanary.LeakCanary
+import io.reactivex.plugins.RxJavaPlugins
 import net.danlew.android.joda.JodaTimeAndroid
 import timber.log.Timber
 
@@ -31,6 +32,8 @@ class AndroidApplication : Application() {
         Timber.plant(Timber.DebugTree())
         Kotpref.init(this)
         JodaTimeAndroid.init(this)
+
+        RxJavaPlugins.setErrorHandler { Timber.d("Error caught globally: %s", it.message) }
 
         Timber.d("Application ready")
     }
