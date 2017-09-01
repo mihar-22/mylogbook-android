@@ -27,6 +27,12 @@ class DashboardFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_dashboard, container, false)!!
     }
 
+    override fun onBackButtonPressed(): Boolean {
+        moveTaskToBack()
+
+        return false
+    }
+
     companion object Builder : SimpleFragmentCompanion(DashboardFragment::class) {
 
         fun build() = DashboardFragment()

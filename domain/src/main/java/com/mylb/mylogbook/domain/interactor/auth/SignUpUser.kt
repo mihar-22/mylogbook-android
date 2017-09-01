@@ -20,7 +20,6 @@ class SignUpUser @Inject constructor(
     override fun buildObservable(params: NewUser) =
             repository.register(params.name, params.email, params.password, params.birthdate)
 
-
     companion object Params {
 
         class NewUser(

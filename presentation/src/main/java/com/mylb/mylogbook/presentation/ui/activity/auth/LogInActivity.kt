@@ -1,10 +1,10 @@
 package com.mylb.mylogbook.presentation.ui.activity.auth
 
+import android.accounts.AccountAuthenticatorResponse
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import com.jakewharton.rxbinding2.view.clicks
 import com.mylb.mylogbook.domain.auth.Auth
 import com.mylb.mylogbook.domain.cache.UserCache
@@ -17,6 +17,7 @@ import com.mylb.mylogbook.presentation.di.scope.PerAndroidComponent
 import com.mylb.mylogbook.presentation.presenter.auth.LogInPresenter
 import com.mylb.mylogbook.presentation.ui.activity.BaseActivity
 import com.mylb.mylogbook.presentation.ui.activity.MainActivity
+import com.mylb.mylogbook.presentation.ui.activity.setup.SetupLicenseActivity
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.FormField.EMAIL
 import com.mylb.mylogbook.presentation.ui.view.auth.LogInView.FormField.PASSWORD
@@ -91,10 +92,22 @@ class LogInActivity : BaseActivity(), LogInView {
     }
 
     override fun navigateToDashboard() {
-        Timber.d("Navigating to dashboard")
-
         with (Authenticator.IntentOptions) {
-            if (intent.authenticatorResponse == null) MainActivity.start(this@LogInActivity)
+            if (intent.authenticatorResponse != null) {
+                finish()
+
+                return
+            }
+        }
+
+        if (userCache.receivedLicenseDate == null || userCache.state == null) {
+            Timber.d("Navigating to setup")
+
+            SetupLicenseActivity.start(this)
+        } else {
+            Timber.d("Navigating to dashboard")
+
+            MainActivity.start(this)
         }
 
         finish()

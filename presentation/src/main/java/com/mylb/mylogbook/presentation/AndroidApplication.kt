@@ -33,7 +33,9 @@ class AndroidApplication : Application() {
         Kotpref.init(this)
         JodaTimeAndroid.init(this)
 
-        RxJavaPlugins.setErrorHandler { Timber.d("Error caught globally: %s", it.message) }
+        RxJavaPlugins.setErrorHandler {
+            Timber.d("Error caught globally: %s", it.message)
+        }
 
         Timber.d("Application ready")
     }

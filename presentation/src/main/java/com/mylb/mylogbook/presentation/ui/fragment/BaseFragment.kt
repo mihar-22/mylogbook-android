@@ -62,6 +62,8 @@ abstract class BaseFragment : Fragment() {
 
     fun hideSoftKeyboard() = mainActivity.hideSoftKeyboard()
 
+    fun moveTaskToBack() = mainActivity.moveTaskToBack(true)
+
     protected fun isGooglePlayServicesAvailable() = mainActivity.isGooglePlayServicesAvailable()
 
     protected fun showToast(message: CharSequence) = Toast.makeText(activity, message, Toast.LENGTH_LONG).show()

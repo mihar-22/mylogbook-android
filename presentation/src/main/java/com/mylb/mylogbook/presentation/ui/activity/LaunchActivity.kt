@@ -13,6 +13,7 @@ import com.mylb.mylogbook.presentation.di.component.DaggerAuthComponent
 import com.mylb.mylogbook.presentation.presenter.Presenter
 import com.mylb.mylogbook.presentation.ui.activity.auth.LogInActivity
 import com.mylb.mylogbook.presentation.ui.activity.auth.SignUpActivity
+import com.mylb.mylogbook.presentation.ui.activity.setup.SetupLicenseActivity
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_launch.*
 import timber.log.Timber
@@ -57,11 +58,19 @@ class LaunchActivity : BaseActivity() {
     }
 
     private fun redirectToMain() {
-        Timber.d("User is authenticated, redirecting to main activity")
+        Timber.d("User is authenticated")
 
         checkAuthentication.execute(CheckAuthenticationObserver(), Credential(userCache.email!!))
 
-        MainActivity.start(this)
+        if (userCache.receivedLicenseDate == null || userCache.state == null) {
+            Timber.d("Navigating to setup")
+
+            SetupLicenseActivity.start(this)
+        } else {
+            Timber.d("Navigating to dashboard")
+
+            MainActivity.start(this)
+        }
 
         finish()
     }

@@ -115,6 +115,13 @@
     <string name="log_start_location">Started At (Suburb)</string>
     <string name="log_end_location">Ended At (Suburb)</string>
 
+    // Setup
+    <string name="setup">Setup</string>
+    <string name="setup_learner_permit_question">When did you receive your learner permit?</string>
+    <string name="setup_license_received_hint">Received On</string>
+    <string name="setup_settings_hint">You can change this in your settings at a later time</string>
+    <string name="setup_state_question">Which state do you currently reside in?</string>
+
     // Unit
     <string name="unit_km">km</string>
 

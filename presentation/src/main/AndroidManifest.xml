@@ -51,6 +51,24 @@
 
         <activity
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".ui.activity.setup.SetupLicenseActivity"
+            android:label="@string/setup">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".ui.activity.setup.SetupStateActivity"
+            android:label="@string/setup">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:name=".ui.activity.MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

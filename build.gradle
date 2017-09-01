@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.kotlinVersion = '1.1.3-2'
+    ext.kotlinVersion = '1.1.4'
     ext.daggerVersion = '2.11-rc2'
     ext.retrofitVersion = '2.3.0'
     ext.okHttpVersion = '3.8.0'
