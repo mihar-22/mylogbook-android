@@ -3,7 +3,7 @@ package com.mylb.mylogbook.presentation.ui.activity.setup
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import com.jakewharton.rxbinding2.view.clicks
-import com.mylb.mylogbook.domain.cache.UserCache
+import com.mylb.mylogbook.domain.cache.SettingsCache
 import com.mylb.mylogbook.domain.learner.AustralianState
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.di.component.AndroidComponent
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class SetupStateActivity : BaseActivity(), SetupStateView {
 
-    @Inject lateinit var userCache: UserCache
+    @Inject lateinit var settings: SettingsCache
     @Inject override lateinit var presenter: SetupStatePresenter
 
     private val component: AndroidComponent
@@ -60,7 +60,8 @@ class SetupStateActivity : BaseActivity(), SetupStateView {
 
         val state = AustralianState.values()[stateSpinner.selectedItemPosition]
 
-        userCache.state = state
+        settings.state = state
+        settings.isSetup = true
 
         MainActivity.start(this)
 

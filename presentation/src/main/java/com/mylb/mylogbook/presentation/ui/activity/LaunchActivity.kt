@@ -3,6 +3,7 @@ package com.mylb.mylogbook.presentation.ui.activity
 import android.graphics.Color
 import android.os.Bundle
 import com.mylb.mylogbook.domain.auth.Auth
+import com.mylb.mylogbook.domain.cache.SettingsCache
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.domain.delivery.remote.Response
 import com.mylb.mylogbook.domain.interactor.auth.CheckAuthentication
@@ -16,6 +17,7 @@ import com.mylb.mylogbook.presentation.ui.activity.auth.SignUpActivity
 import com.mylb.mylogbook.presentation.ui.activity.setup.SetupLicenseActivity
 import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.activity_launch.*
+import me.eugeniomarletti.extras.SimpleActivityCompanion
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,6 +25,7 @@ class LaunchActivity : BaseActivity() {
 
     @Inject lateinit var auth: Auth
     @Inject lateinit var userCache: UserCache
+    @Inject lateinit var settings: SettingsCache
     @Inject lateinit var checkAuthentication: CheckAuthentication
 
     override val presenter: Presenter? = null
@@ -62,23 +65,31 @@ class LaunchActivity : BaseActivity() {
 
         checkAuthentication.execute(CheckAuthenticationObserver(), Credential(userCache.email!!))
 
-        if (userCache.receivedLicenseDate == null || userCache.state == null) {
-            Timber.d("Navigating to setup")
-
-            SetupLicenseActivity.start(this)
-        } else {
+        if (settings.isSetup) {
             Timber.d("Navigating to dashboard")
 
             MainActivity.start(this)
+        } else {
+            Timber.d("Navigating to setup")
+
+            SetupLicenseActivity.start(this)
         }
 
         finish()
     }
 
+    override fun onBackPressed() { moveTaskToBack(true) }
+
     private inner class CheckAuthenticationObserver : DisposableObserver<Response<Unit>>() {
         override fun onNext(t: Response<Unit>) = Unit
         override fun onComplete() = Unit
         override fun onError(e: Throwable) = Unit
+    }
+
+    companion object Builder : SimpleActivityCompanion(LaunchActivity::class) {
+
+        fun build() = LaunchActivity()
+
     }
 
 }

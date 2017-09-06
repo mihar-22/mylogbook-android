@@ -3,7 +3,7 @@ package com.mylb.mylogbook.presentation.ui.activity.setup
 import android.os.Bundle
 import com.jakewharton.rxbinding2.view.clicks
 import com.mylb.mylogbook.data.network.Network
-import com.mylb.mylogbook.domain.cache.UserCache
+import com.mylb.mylogbook.domain.cache.SettingsCache
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.di.component.AndroidComponent
 import com.mylb.mylogbook.presentation.di.component.DaggerAndroidComponent
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 class SetupLicenseActivity : BaseActivity(), SetupLicenseView {
 
-    @Inject lateinit var userCache: UserCache
+    @Inject lateinit var settings: SettingsCache
     @Inject override lateinit var presenter: SetupLicensePresenter
 
     private val component: AndroidComponent
@@ -54,11 +54,7 @@ class SetupLicenseActivity : BaseActivity(), SetupLicenseView {
 
         val receivedOn = licenceReceivedEditText.text.trim().toString()
 
-        userCache.receivedLicenseDate = if (receivedOn.isNotEmpty()) {
-            DateTime.parse(receivedOn, Network.dateFormat)
-        } else {
-            DateTime.parse(DateTime.now().toString(Network.dateFormat), Network.dateFormat)
-        }
+        if (receivedOn.isNotEmpty()) settings.licenseObtainedOn = DateTime.parse(receivedOn, Network.dateFormat)
 
         SetupStateActivity.start(this)
     }

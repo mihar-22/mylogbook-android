@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="email"
+        android:title="@string/settings_email_title"
+        android:persistent="false" />
+
+    <Preference
+        android:key="license_obtained_on"
+        android:title="@string/settings_license_obtained_title"
+        android:persistent="false"/>
+
+    <ListPreference
+        android:key="state"
+        android:title="@string/settings_state_title"
+        android:dialogTitle="@string/settings_state_dialog_title"
+        android:entries="@array/australian_states"
+        android:entryValues="@array/australian_states"
+        android:summary="%s"/>
+
+    <PreferenceScreen
+        android:title="@string/settings_entries_title"
+        android:summary="@string/settings_entries_summary"
+        android:persistent="false">
+
+        <PreferenceCategory
+            android:key="entry_category_time"
+            android:title="@string/settings_entries_category_time_title"
+            android:persistent="false">
+
+            <EditTextPreference
+                android:key="entry_day"
+                android:title="@string/settings_entry_day_title"
+                android:inputType="numberSigned"
+                android:dialogTitle="@string/settings_entry_day_dialog_title"
+                android:persistent="false"/>
+
+            <EditTextPreference
+                android:key="entry_night"
+                android:title="@string/settings_entry_night_title"
+                android:inputType="numberSigned"
+                android:dialogTitle="@string/settings_entry_night_dialog_title"
+                android:persistent="false"/>
+
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="entry_category_accredited_time"
+            android:title="@string/settings_entries_category_accredited_time_title"
+            android:persistent="false">
+
+            <EditTextPreference
+                android:key="entry_accredited_day"
+                android:title="@string/settings_entry_day_title"
+                android:inputType="numberSigned"
+                android:dialogTitle="@string/settings_entry_day_dialog_title"
+                android:persistent="false"/>
+
+            <EditTextPreference
+                android:key="entry_accredited_night"
+                android:title="@string/settings_entry_night_title"
+                android:inputType="numberSigned"
+                android:dialogTitle="@string/settings_entry_night_dialog_title"
+                android:persistent="false"/>
+
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
+    <Preference
+        android:key="feedback"
+        android:title="@string/settings_feedback_title"
+        android:persistent="false"/>
+
+    <Preference
+        android:key="legal"
+        android:title="@string/settings_legal_title"
+        android:persistent="false"/>
+
+    <Preference
+        android:key="logout"
+        android:title="@string/settings_logout_title"
+        android:persistent="false"/>
+
+</PreferenceScreen>

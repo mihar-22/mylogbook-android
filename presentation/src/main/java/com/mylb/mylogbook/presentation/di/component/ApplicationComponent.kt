@@ -5,6 +5,7 @@ import com.mylb.mylogbook.data.database.Database
 import com.mylb.mylogbook.data.database.entity.Car
 import com.mylb.mylogbook.data.database.entity.Supervisor
 import com.mylb.mylogbook.data.database.entity.Trip
+import com.mylb.mylogbook.domain.cache.SettingsCache
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.domain.delivery.local.repository.LocalCarRepository
 import com.mylb.mylogbook.domain.delivery.local.repository.LocalSupervisorRepository
@@ -41,6 +42,7 @@ interface ApplicationComponent {
     fun threadExecutor(): ThreadExecutor
     fun postExecutionThread(): PostExecutionThread
     fun userCache(): UserCache
+    fun settingsCache(): SettingsCache
     fun rxLocation(): RxLocation
 
     // Http Module

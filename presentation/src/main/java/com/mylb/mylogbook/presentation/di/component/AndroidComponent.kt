@@ -5,6 +5,7 @@ import com.mylb.mylogbook.presentation.di.module.AndroidModule
 import com.mylb.mylogbook.presentation.di.qualifier.ForAndroidComponent
 import com.mylb.mylogbook.presentation.di.scope.PerAndroidComponent
 import com.mylb.mylogbook.presentation.ui.activity.MainActivity
+import com.mylb.mylogbook.presentation.ui.activity.settings.SettingsActivity
 import com.mylb.mylogbook.presentation.ui.activity.setup.SetupLicenseActivity
 import com.mylb.mylogbook.presentation.ui.activity.setup.SetupStateActivity
 import com.mylb.mylogbook.presentation.ui.fragment.car.CarsFragment
@@ -25,6 +26,7 @@ interface AndroidComponent {
     fun inject(activity: MainActivity)
     fun inject(activity: SetupLicenseActivity)
     fun inject(activity: SetupStateActivity)
+    fun inject(activity: SettingsActivity)
 
     fun inject(fragment: CarsFragment)
     fun inject(fragment: EditCarFragment)

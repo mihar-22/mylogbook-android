@@ -1,12 +1,12 @@
 package com.mylb.mylogbook.presentation.ui.activity.auth
 
-import android.accounts.AccountAuthenticatorResponse
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.jakewharton.rxbinding2.view.clicks
 import com.mylb.mylogbook.domain.auth.Auth
+import com.mylb.mylogbook.domain.cache.SettingsCache
 import com.mylb.mylogbook.domain.cache.UserCache
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.SystemIntent
@@ -37,6 +37,7 @@ class LogInActivity : BaseActivity(), LogInView {
 
     @Inject lateinit var auth: Auth
     @Inject lateinit var userCache: UserCache
+    @Inject lateinit var settings: SettingsCache
     @Inject override lateinit var presenter: LogInPresenter
 
     private val component: AuthComponent
@@ -100,14 +101,14 @@ class LogInActivity : BaseActivity(), LogInView {
             }
         }
 
-        if (userCache.receivedLicenseDate == null || userCache.state == null) {
-            Timber.d("Navigating to setup")
-
-            SetupLicenseActivity.start(this)
-        } else {
+        if (settings.isSetup) {
             Timber.d("Navigating to dashboard")
 
             MainActivity.start(this)
+        } else {
+            Timber.d("Navigating to setup")
+
+            SetupLicenseActivity.start(this)
         }
 
         finish()

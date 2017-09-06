@@ -1,5 +1,7 @@
 package com.mylb.mylogbook.domain.learner
 
+import org.joda.time.Duration
+
 enum class AustralianState(val abbreviation: String, val displayName: String) {
 
     VICTORIA("VIC", "Victoria"),
@@ -31,10 +33,10 @@ enum class AustralianState(val abbreviation: String, val displayName: String) {
             WESTERN_AUSTRALIA -> LoggedTimeRequired(180_000)
         }
 
-    val bonusTimeAvailable: Int
+    val bonusTimeAvailable: Duration
         get() = when (this) {
-            NEW_SOUTH_WHALES, QUEENSLAND -> 36_000
-            else -> 0
+            NEW_SOUTH_WHALES, QUEENSLAND -> Duration.standardSeconds(36_000)
+            else -> Duration.standardSeconds(0)
         }
 
     val bonusMultiplier: Int
@@ -43,8 +45,8 @@ enum class AustralianState(val abbreviation: String, val displayName: String) {
             else -> 0
         }
 
-    val bonusTimeAvailableWithMultiplier: Int
-        get() = (bonusTimeAvailable * bonusMultiplier)
+    val bonusTimeAvailableWithMultiplier: Duration
+        get() = (bonusTimeAvailable.multipliedBy(bonusMultiplier.toLong()))
 
     fun monthsRequired(age: Int): Int = when (this) {
         VICTORIA -> if (age < 21) 12 else if (age in 21..25) 6 else 3
@@ -57,17 +59,23 @@ enum class AustralianState(val abbreviation: String, val displayName: String) {
 
 }
 
-class LoggedTimeRequired(val day: Int, val night: Int? = null) {
+class LoggedTimeRequired(private val daySeconds: Long, private val nightSeconds: Long? = null) {
 
-    val total: Int
-        get() = (day + (night ?: 0))
+    val day: Duration
+        get() = Duration.standardSeconds(daySeconds)
+
+    val night: Duration?
+        get() = if (nightSeconds != null) Duration.standardSeconds(nightSeconds) else null
+
+    val total: Duration
+        get() = (day.plus(night))
 
 }
 
 object NewSouthWhalesRequirements {
 
-    const val SAFER_DRIVERS_REQUIRED_TIME = 180_000
-    const val SAFER_DRIVERS_BONUS = 72_000
+    val SAFER_DRIVERS_REQUIRED_TIME = Duration.standardSeconds(180_000)
+    val SAFER_DRIVERS_BONUS = Duration.standardSeconds(72_000)
 
 }
 
@@ -76,10 +84,10 @@ enum class TasmaniaRequirements {
     L1,
     L2;
 
-    val loggedTimeRequired: Int
+    val loggedTimeRequired: Duration
         get() = when (this) {
-            L1 -> 108_000
-            L2 -> 180_000
+            L1 -> Duration.standardSeconds(108_000)
+            L2 -> Duration.standardSeconds(180_000)
         }
 
     val monthsRequired: Int
@@ -95,10 +103,10 @@ enum class WesternAustraliaRequirements {
     S1,
     S2;
 
-    val loggedTimeRequired: Int
+    val loggedTimeRequired: Duration
         get() = when (this) {
-            S1 -> 90_000
-            S2 -> 90_000
+            S1 -> Duration.standardSeconds(90_000)
+            S2 -> Duration.standardSeconds(90_000)
         }
 
     val monthsRequired: Int

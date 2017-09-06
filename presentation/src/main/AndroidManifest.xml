@@ -76,6 +76,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:name=".ui.activity.settings.SettingsActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:label="@string/settings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+
         <service android:name=".device.authenticator.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
