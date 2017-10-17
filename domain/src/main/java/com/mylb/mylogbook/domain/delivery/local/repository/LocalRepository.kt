@@ -26,7 +26,7 @@ interface LocalTripRepository<T : Trip> : LocalRepository<T> {
 
     override fun delete(resources: List<T>) = Unit
 
-    fun allNotAccumulated(): Flowable<List<T>>
+    fun all(isAccumulated: Boolean): Flowable<List<T>>
 
 }
 

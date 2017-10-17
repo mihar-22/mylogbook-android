@@ -56,7 +56,6 @@ enum class AustralianState(val abbreviation: String, val displayName: String) {
         SOUTH_AUSTRALIA -> if (age < 25) 12 else 6
         WESTERN_AUSTRALIA -> 6
     }
-
 }
 
 class LoggedTimeRequired(private val daySeconds: Long, private val nightSeconds: Long? = null) {
@@ -84,6 +83,12 @@ enum class TasmaniaRequirements {
     L1,
     L2;
 
+    val title: String
+        get() = when(this) {
+            L1 -> "L1"
+            L2 -> "L2"
+        }
+
     val loggedTimeRequired: Duration
         get() = when (this) {
             L1 -> Duration.standardSeconds(108_000)
@@ -102,6 +107,12 @@ enum class WesternAustraliaRequirements {
 
     S1,
     S2;
+
+    val title: String
+        get() = when(this) {
+            S1 -> "Stage 1"
+            S2 -> "Stage 2"
+        }
 
     val loggedTimeRequired: Duration
         get() = when (this) {

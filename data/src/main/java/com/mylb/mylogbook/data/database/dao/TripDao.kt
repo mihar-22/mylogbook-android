@@ -16,8 +16,8 @@ interface TripDao {
     @Query("SELECT * FROM trip")
     fun all(): Flowable<List<Trip>>
 
-    @Query("SELECT * FROM trip WHERE isAccumulated = 0")
-    fun allNotAccumulated(): Flowable<List<Trip>>
+    @Query("SELECT * FROM trip WHERE isAccumulated = :isAccumulated")
+    fun all(isAccumulated: Boolean): Flowable<List<Trip>>
 
     @Query("UPDATE trip SET remoteId = :remoteId WHERE id = :id")
     fun updateRemoteId(id: Int, remoteId: Int)

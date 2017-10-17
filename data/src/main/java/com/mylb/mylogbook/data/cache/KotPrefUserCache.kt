@@ -2,6 +2,7 @@ package com.mylb.mylogbook.data.cache
 
 import android.content.Context
 import com.chibatching.kotpref.KotprefModel
+import com.chibatching.kotpref.bulk
 import com.google.gson.reflect.TypeToken
 import com.mylb.mylogbook.data.network.Network
 import com.mylb.mylogbook.domain.cache.UserCache
@@ -46,9 +47,11 @@ class KotPrefUserCache constructor(context: Context) : KotprefModel(), UserCache
     override fun destroy() {
         Timber.d("Destroying")
 
-        name = null
-        birthdate = null
-        apiToken = null
+        bulk {
+            name = null
+            birthdate = null
+            apiToken = null
+        }
     }
 
 }

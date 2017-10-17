@@ -23,8 +23,10 @@ class RoomTripRepository(private val dao: TripDao) : LocalTripRepository<Trip> {
     override fun all(): Flowable<List<Trip>> = dao.all()
             .doOnNext { Timber.d("Loaded %d trips from local database", it.size) }
 
-    override fun allNotAccumulated(): Flowable<List<Trip>> = dao.allNotAccumulated()
-                .doOnNext { Timber.d("Loaded %d trips to be accumulated from local database", it.size) }
+    override fun all(isAccumulated: Boolean): Flowable<List<Trip>> = dao.all(isAccumulated)
+                .doOnNext {
+                    Timber.d("Loaded %d trips (accumulated: %s) to be from local database", it.size, isAccumulated)
+                }
 
     override fun setRemoteId(id: Int, remoteId: Int) {
         Timber.d("Setting (remoteId: %d) for trip (id: %d)", remoteId, id)

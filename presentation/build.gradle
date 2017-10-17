@@ -95,6 +95,7 @@ dependencies {
     compile libraries.androidCardView
     compile libraries.androidJoda
     compile libraries.rxLocation
+    compile libraries.circleProgress
 
     // Google Play
     compile libraries.googlePlayBase

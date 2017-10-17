@@ -201,14 +201,14 @@ class SettingsActivity : BaseActivity() {
                     val maxDuration = state.bonusTimeAvailable
                     val totalDurationRemaining = maxDuration.minus(settings.entryAccreditedNight)
                     adjustedDuration = minOf(duration, totalDurationRemaining)
-                    settings.entryAccreditedDay = adjustedDuration 
+                    settings.entryAccreditedDay = adjustedDuration.multipliedBy(state.bonusMultiplier.toLong())
                 }
 
                 SettingsOption.ENTRY_ACCREDITED_NIGHT -> {
                     val maxDuration = state.bonusTimeAvailable
                     val totalDurationRemaining = maxDuration.minus(settings.entryAccreditedDay)
                     adjustedDuration = minOf(duration, totalDurationRemaining)
-                    settings.entryAccreditedNight = adjustedDuration
+                    settings.entryAccreditedNight = adjustedDuration.multipliedBy(state.bonusMultiplier.toLong())
                 }
 
                 else -> return

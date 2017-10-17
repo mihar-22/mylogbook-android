@@ -10,8 +10,13 @@
     <color name="disabledText">#61000000</color>
     <color name="dividerText">#1F000000</color>
 
+    <color name="empty">#F0F0F0</color>
+
     <color name="background">#FAFAFA</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <color name="day">#FFCC2F</color>
+    <color name="night">#5167A0</color>
 </resources>

@@ -2,11 +2,14 @@ package com.mylb.mylogbook.presentation.ui.fragment.dashboard
 
 import android.os.Bundle
 import android.view.*
+import android.widget.LinearLayout
+import com.github.lzyzsd.circleprogress.ArcProgress
 import com.mylb.mylogbook.presentation.R
 import com.mylb.mylogbook.presentation.presenter.Presenter
 import com.mylb.mylogbook.presentation.ui.activity.settings.SettingsActivity
 import com.mylb.mylogbook.presentation.ui.fragment.BaseFragment
 import com.mylb.mylogbook.presentation.ui.fragment.util.SimpleFragmentCompanion
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 import timber.log.Timber
 
 class DashboardFragment : BaseFragment() {
@@ -21,7 +24,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle?
     ): View {
         activity.title = getString(R.string.bottom_nav_dashboard)
 

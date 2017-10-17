@@ -5,9 +5,7 @@ import com.mylb.mylogbook.domain.resource.trip.encounter.Light
 import com.mylb.mylogbook.domain.resource.trip.encounter.Road
 import com.mylb.mylogbook.domain.resource.trip.encounter.Traffic
 import com.mylb.mylogbook.domain.resource.trip.encounter.Weather
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import org.joda.time.Interval
+import org.joda.time.*
 import java.util.*
 
 interface Trip : Resource {
@@ -51,6 +49,34 @@ interface Trip : Resource {
         }
     }
 
+    fun calculateLoggedTime(): LoggedTime {
+        val start = startedAt.toDateTime(timeZone).secondOfDay
+        val end = endedAt.toDateTime(timeZone).secondOfDay
+
+        val twilight = calculateTwilight()
+        val sunrise = twilight.civilDawn.secondOfDay
+        val sunset = twilight.civilDusk.secondOfDay
+
+        val secondsPerDay = 86_400
+        val days = (start + (end - start)) / secondsPerDay
+
+        var dayLogged = 0
+        var nightLogged = 0
+
+        for (day in 0 .. days) {
+            val dayStart = if (day == 0) start else 0
+            val dayEnd = if (day == days) end else secondsPerDay
+
+            dayLogged += maxOf(0, (minOf(dayEnd, sunset) - maxOf(dayStart, sunrise)))
+            nightLogged += maxOf(0, (dayEnd - maxOf(dayStart, sunset))) + maxOf(0, minOf(dayEnd, sunrise) - dayStart)
+        }
+
+        return LoggedTime(
+                Duration.standardSeconds(dayLogged.toLong()),
+                Duration.standardSeconds(nightLogged.toLong())
+        )
+    }
+
     fun calculateTwilight(): Twilight {
         val calendar = Calendar.getInstance(timeZone.toTimeZone())
         val latitude = startLatitude
@@ -70,6 +96,11 @@ interface Trip : Resource {
         )
     }
 
+    data class LoggedTime(
+            val day: Duration,
+            val night: Duration
+    )
+
     data class Twilight(
             val civilDawn: DateTime,
             val civilDusk: DateTime,
@@ -78,6 +109,18 @@ interface Trip : Resource {
             val astronomicalDawn: DateTime,
             val astronomicalDusk: DateTime
     )
+
+    companion object {
+
+        fun calculateBonus(duration: Duration, multiplier: Int, bonusRemaining: Duration): Duration {
+            val noDuration = Duration(0)
+
+            if (bonusRemaining <= noDuration) return noDuration
+
+            return minOf(bonusRemaining, duration.multipliedBy(multiplier.toLong()))
+        }
+
+    }
 
 }
 

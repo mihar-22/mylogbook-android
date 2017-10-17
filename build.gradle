@@ -1,6 +1,6 @@
 
 buildscript {
-    ext.kotlinVersion = '1.1.4'
+    ext.kotlinVersion = '1.1.4-3'
     ext.daggerVersion = '2.11-rc2'
     ext.retrofitVersion = '2.3.0'
     ext.okHttpVersion = '3.8.0'
@@ -30,6 +30,7 @@ buildscript {
     ext.stethoVersion = '1.5.0'
     ext.sunriseSunsetVersion = '1.1.0'
     ext.googlePlayVersion = '11.2.0'
+    ext.circleProgressVersion = '1.2.1'
 
     repositories {
         jcenter()
@@ -45,6 +46,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'https://maven.google.com' }
+        maven { url "https://jitpack.io" }
     }
 
     ext {
@@ -86,6 +88,7 @@ allprojects {
             androidRoomCompiler:        "android.arch.persistence.room:compiler:$androidRoomVersion",
             androidRoomRx:              "android.arch.persistence.room:rxjava2:$androidRoomVersion",
             sunriseSunset:              "ca.rmen:lib-sunrise-sunset:$sunriseSunsetVersion",
+            circleProgress:             "com.github.lzyzsd:circleprogress:$circleProgressVersion",
 
             // Google Play
             googlePlayBase:             "com.google.android.gms:play-services-base:$googlePlayVersion",
