@@ -155,10 +155,12 @@ class SyncTest {
     }
 
     private fun executeSync(localCopies: List<TestEntity>, remoteCopies: List<TestEntity>) {
-        given(mockLocalRepository.all()).willReturn(Flowable.just(localCopies))
-        given(mockRemoteRepository.all(now)).willReturn(buildResponse(remoteCopies))
+        val lastSyncedAt = Network.now
 
-        TestSync<TestEntity>(now, mockLocalRepository, mockRemoteRepository)
+        given(mockLocalRepository.all()).willReturn(Flowable.just(localCopies))
+        given(mockRemoteRepository.all(lastSyncedAt)).willReturn(buildResponse(remoteCopies))
+
+        TestSync<TestEntity>(lastSyncedAt, mockLocalRepository, mockRemoteRepository)
                 .build()
                 .blockingGet()
     }

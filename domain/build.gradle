@@ -1,7 +1,7 @@
 apply plugin: 'kotlin'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 configurations {
     provided
@@ -16,21 +16,21 @@ sourceSets {
 dependencies {
     def libraries = rootProject.ext.libraries
 
-    provided libraries.javaxAnnotation
+    compileOnly libraries.javaxAnnotation
 
     // General
-    compile libraries.javaxInject
-    compile libraries.retrofit
-    compile libraries.rxJava
-    compile libraries.jodaTime
-    compile libraries.sunriseSunset
+    implementation libraries.javaxInject
+    implementation libraries.retrofit
+    implementation libraries.rxJava
+    implementation libraries.jodaTime
+    implementation libraries.sunriseSunset
 
     // Kotlin
-    compile libraries.kotlin
-    compile libraries.rxKotlin
+    implementation libraries.kotlin
+    implementation libraries.rxKotlin
 
     // Testing
-    testCompile libraries.junit
-    testCompile libraries.mockito
-    testCompile libraries.kluent
+    testImplementation libraries.junit
+    testImplementation libraries.mockito
+    testImplementation libraries.kluent
 }

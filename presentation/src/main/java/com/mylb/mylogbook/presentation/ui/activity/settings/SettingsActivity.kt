@@ -168,7 +168,7 @@ class SettingsActivity : BaseActivity() {
             val state = settings.state
             val minutes = value.toString().toLong()
             val duration = Duration.standardMinutes(minutes)
-            var adjustedDuration = Duration.standardSeconds(0)
+            val adjustedDuration: Duration
 
             when(option) {
                 SettingsOption.ENTRY_DAY -> {

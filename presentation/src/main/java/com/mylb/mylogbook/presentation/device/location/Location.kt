@@ -1,5 +1,6 @@
 package com.mylb.mylogbook.presentation.device.location
 
+import android.annotation.SuppressLint
 import android.location.Location
 import com.google.android.gms.location.LocationRequest
 import com.mylb.mylogbook.domain.executor.PostExecutionThread
@@ -20,11 +21,13 @@ class Location @Inject constructor(
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
             .setInterval(5000)
 
+    @SuppressLint("MissingPermission")
     val lastLocation = locator.location()
             .lastLocation()
             .subscribeOn(Schedulers.from(threadExecutor))
             .observeOn(postExecutionThread.scheduler)
 
+    @SuppressLint("MissingPermission")
     val updates = locator.location()
             .updates(locationRequest)
             .subscribeOn(Schedulers.from(threadExecutor))

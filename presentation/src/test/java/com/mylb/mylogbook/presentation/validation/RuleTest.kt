@@ -1,5 +1,6 @@
 package com.mylb.mylogbook.presentation.validation
 
+import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeFalse
 import org.amshove.kluent.shouldBeTrue
 import org.junit.Test
@@ -96,11 +97,13 @@ class RuleTest {
         isValid.shouldBeFalse()
     }
 
-    @Test(expected = NumberFormatException::class)
-    fun Min_Alpha_NumberFormatException() {
+    @Test
+    fun Min_Alpha_False() {
         val value = "a"
 
-        Rule.Min(2).validate(value)
+        val isValid = Rule.Min(2).validate(value)
+
+        isValid.shouldBeFalse()
     }
 
     @Test
@@ -139,11 +142,13 @@ class RuleTest {
         isValid.shouldBeFalse()
     }
 
-    @Test(expected = NumberFormatException::class)
-    fun Max_Alpha_NumberFormatException() {
+    @Test
+    fun Max_Alpha_False() {
         val value = "a"
 
-        Rule.Max(4).validate(value)
+        val isValid = Rule.Max(4).validate(value)
+
+        isValid.shouldBeFalse()
     }
 
     @Test

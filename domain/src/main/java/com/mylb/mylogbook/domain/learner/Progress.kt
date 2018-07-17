@@ -120,8 +120,7 @@ class Progress<S : Supervisor, T : Trip> @Inject constructor(
     private fun accumulateOccurrences(trips: List<T>) {
         val occurrences = cache.conditionOccurrences
 
-        
-
+        TODO("not implemented")
     }
 
     val tasks: List<BaseTask>

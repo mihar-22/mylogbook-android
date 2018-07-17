@@ -9,6 +9,7 @@
     <color name="hintText">#61000000</color>
     <color name="disabledText">#61000000</color>
     <color name="dividerText">#1F000000</color>
+    <color name="error">#C51162</color>
 
     <color name="empty">#F0F0F0</color>
 

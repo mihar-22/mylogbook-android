@@ -59,7 +59,7 @@ class CarsPresenter<T : Car> @Inject constructor(
                 .listItemClicks
                 .filter { !(view!!.isMultiSelectionEnabled) }
                 .subscribe {
-                    Timber.d("Clicked car (position: %d)", it.position)
+                    Timber.d("Clicked car (position: %d)", it.layoutPosition)
 
                     view!!.navigateToEditCar(it.car)
                 }
@@ -72,7 +72,7 @@ class CarsPresenter<T : Car> @Inject constructor(
                 .listItemLongClicks
                 .filter { !(view!!.isMultiSelectionEnabled) }
                 .subscribe {
-                    Timber.d("Long clicked car (position: %d)", it.position)
+                    Timber.d("Long clicked car (position: %d)", it.layoutPosition)
 
                     view!!.startMultiSelection()
                     multiSelections.add(it)
@@ -88,12 +88,12 @@ class CarsPresenter<T : Car> @Inject constructor(
                 .filter { view!!.isMultiSelectionEnabled }
                 .subscribe {
                     if(multiSelections.contains(it)) {
-                        Timber.d("Removed car from multi selection (position: %d)", it.position)
+                        Timber.d("Removed car from multi selection (position: %d)", it.layoutPosition)
 
                         multiSelections.remove(it)
                         view!!.removeHighlightOnListItem(it)
                     } else {
-                        Timber.d("Added car to multi selection (position: %d)", it.position)
+                        Timber.d("Added car to multi selection (position: %d)", it.layoutPosition)
 
                         multiSelections.add(it)
                         view!!.highlightListItem(it)

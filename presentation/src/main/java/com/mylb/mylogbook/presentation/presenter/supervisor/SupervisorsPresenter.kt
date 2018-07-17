@@ -72,7 +72,7 @@ class SupervisorsPresenter<T : Supervisor> @Inject constructor(
                 .listItemLongClicks
                 .filter { !(view!!.isMultiSelectionEnabled) }
                 .subscribe {
-                    Timber.d("Long clicked supervisor (position: %d)", it.position)
+                    Timber.d("Long clicked supervisor (position: %d)", it.layoutPosition)
 
                     view!!.startMultiSelection()
                     multiSelections.add(it)
@@ -88,12 +88,12 @@ class SupervisorsPresenter<T : Supervisor> @Inject constructor(
                 .filter { view!!.isMultiSelectionEnabled }
                 .subscribe {
                     if(multiSelections.contains(it)) {
-                        Timber.d("Removed supervisor from multi selection (position: %d)", it.position)
+                        Timber.d("Removed supervisor from multi selection (position: %d)", it.layoutPosition)
 
                         multiSelections.remove(it)
                         view!!.removeHighlightOnListItem(it)
                     } else {
-                        Timber.d("Added supervisor to multi selection (position: %d)", it.position)
+                        Timber.d("Added supervisor to multi selection (position: %d)", it.layoutPosition)
 
                         multiSelections.add(it)
                         view!!.highlightListItem(it)

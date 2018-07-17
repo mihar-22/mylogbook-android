@@ -14,7 +14,6 @@ import timber.log.Timber
 class KotPrefUserCache constructor(context: Context) : KotprefModel(), UserCache {
 
     override val kotprefName = "${context.packageName}_user"
-    override val kotprefMode = Context.MODE_MULTI_PROCESS
 
     override var name by nullableStringPref()
     override var email by nullableStringPref()

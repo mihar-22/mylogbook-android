@@ -17,51 +17,50 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility     JavaVersion.VERSION_1_7
-        targetCompatibility     JavaVersion.VERSION_1_7
+        sourceCompatibility     JavaVersion.VERSION_1_8
+        targetCompatibility     JavaVersion.VERSION_1_8
     }
-}
 
-kapt {
-    generateStubs = true
 }
 
 dependencies {
     def libraries = rootProject.ext.libraries
 
-    compile (project(':domain')) { exclude module: 'joda-time' }
+    api (project(':domain')) {
+        exclude module: 'joda-time'
+    }
 
-    provided libraries.javaxAnnotation
+    compileOnly libraries.javaxAnnotation
 
     // Annotation Processors
     kapt libraries.androidRoomCompiler
 
     // Debug
-    compile libraries.timber
+    implementation libraries.timber
 
     // General
-    compile libraries.javaxInject
-    compile libraries.okHttp
-    compile libraries.gson
-    compile libraries.rxJava
-    compile libraries.retrofit
-    compile libraries.retrofitRxAdapter
-    compile libraries.retrofitGsonConverter
-    compile libraries.androidJoda
-    compile libraries.rxAndroid
-    compile libraries.androidAnnotations
-    compile libraries.androidRoom
-    compile libraries.androidRoomRx
+    implementation libraries.javaxInject
+    api libraries.okHttp
+    api libraries.gson
+    implementation libraries.rxJava
+    api libraries.retrofit
+    api libraries.retrofitRxAdapter
+    api libraries.retrofitGsonConverter
+    api libraries.androidJoda
+    implementation libraries.rxAndroid
+    implementation libraries.androidAnnotations
+    api libraries.androidRoom
+    implementation libraries.androidRoomRx
 
     // Kotlin
-    compile libraries.kotlin
-    compile libraries.rxKotlin
-    compile libraries.kotpref
+    api libraries.kotlin
+    api libraries.rxKotlin
+    api libraries.kotpref
 
     // Testing
-    testCompile libraries.junit
-    testCompile libraries.mockito
-    testCompile libraries.kluent
-    testCompile libraries.robolectric
-    testCompile libraries.jodaTime
+    testImplementation libraries.junit
+    testImplementation libraries.mockito
+    testImplementation libraries.kluent
+    testImplementation libraries.robolectric
+    testImplementation libraries.jodaTime
 }
